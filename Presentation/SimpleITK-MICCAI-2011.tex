@@ -1,0 +1,118 @@
+% Have TexShop run the whole thing
+%!TEX TS-program = pdflatexmk
+
+%\documentclass[handout,18pt]{beamer}
+\documentclass[18pt]{beamer}
+\usetheme{Madrid}
+
+\usepackage{hyperref}
+% \usepackage{ulem,cite,caption,amsmath,graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{paralist}
+% \usepackage[htt]{hyphenat}
+% \usepackage{enumitem}
+\usepackage{float}
+% \setlist{nolistsep}
+
+\usepackage{url}
+
+\include{ListingSupport}
+
+\newcommand{\centeredlargetext}[3]{
+{
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg={#1}}
+\color{#2}
+\begin{frame}[plain]
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+{#3}
+\end{center}
+\end{frame}
+}}
+
+\newcommand{\centeredhugetext}[3]{
+{
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg={#1}}
+\fontsize{72pt}{72pt}\selectfont
+\color{#2}
+\begin{frame}[plain]
+\center
+\begin{center}
+{#3}
+\end{center}
+\end{frame}
+}}
+
+
+\begin{document}
+
+\title[SimpleITK - MICCAI 2011]{SimpleITK Tutorial}
+\subtitle[IP for mere mortals]{Image processing for mere mortals}
+\institute[Insight Software Consortium]{Insight Software Consortium}
+\date[Sept 2011]{Sept 23, 2011}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+{
+\setbeamertemplate{navigation symbols}{}
+\begin{frame}[plain]
+\center
+\begin{center}
+This presentation is copyrighted by\\
+The \textbf{Insight Software Consortium}\\
+\bigskip
+distributed under the\\
+\textbf{Creative Commons by Attribution License 3.0}\\
+\url{http://creativecommons.org/licenses/by/3.0}\\
+\end{center}
+\end{frame}
+}
+
+
+\begin{frame}
+\frametitle{What this Tutorial is about}
+\begin{itemize}
+\item Provide working knowledge of the SimpleITK platform
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Program}
+
+\begin{itemize}
+\item Virtual Machines Preparation (10min)
+\item Introduction (15min)
+\item Basic Tutorials I (45min)
+\item \textcolor{gray}{Short Break (10min)}
+\item Basic Tutorials II (45min)
+\item \textcolor{gray}{Coffee Break (30min)}
+\item Intermediate Tutorials (45min)
+\item \textcolor{gray}{Short Break (10min)}
+\item Advanced Topics (40min)
+\item Wrap-up (10min)
+\end{itemize}
+
+\end{frame}
+
+\include{01-VirtualMachinePreparation}
+\include{02-Introduction}
+\include{03-BasicTutorials1}
+\include{04-BasicTutorials2}
+\include{05-IntermediateTutorials}
+\include{06-AdvancedTopics}
+\include{07-WrapUp}
+
+
+\begin{frame}
+\frametitle{Wrap-up}
+\end{frame}
+
+
+\end{document}

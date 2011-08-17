@@ -1,0 +1,147 @@
+% New float environment
+\newfloat{listing}{tbphH}{lopbl}
+\floatname{listing}{Listing}
+% \newsubfloat{listing}
+
+\definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+\definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+\definecolor{listnumbers}{gray}{0.65}
+\definecolor{listlightgray}{gray}{0.955}
+\definecolor{listwhite}{gray}{1.0}
+
+% Now can put escape sequences inside listings.
+\lstset{escapeinside={(*}{*)}}
+\lstdefinelanguage{Lua}
+  {morecomment=[l]{--},
+}
+
+ \newcommand{\lstcpp}
+ {
+\lstset{frame = tb,
+    framerule = 0.25pt,
+    belowcaptionskip = 8pt,
+    float,
+    %fontadjust,
+    backgroundcolor={\color{listlightgray}},
+    basicstyle = {\ttfamily\footnotesize},
+    keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+    identifierstyle = {\ttfamily},
+    commentstyle = {\ttfamily\color{listcomment}\textit},
+    stringstyle = {\ttfamily},
+    showstringspaces = false,
+    showtabs = false,
+    % numbers = left,
+    numbersep = 2pt,
+    numberstyle={\ttfamily\color{listnumbers}},
+    tabsize = 2,
+    language=[ANSI]C++,
+    floatplacement=!h
+  }
+}
+ \newcommand{\lstmatlab}
+ {
+\lstset{frame = tb,
+    framerule = 0.25pt,
+    belowcaptionskip = 8pt,
+    float,
+    fontadjust,
+    backgroundcolor={\color{listlightgray}},
+    basicstyle = {\ttfamily\footnotesize},
+    keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+    identifierstyle = {\ttfamily},
+    commentstyle = {\ttfamily\color{listcomment}\textit},
+    stringstyle = {\ttfamily},
+    showstringspaces = false,
+    showtabs = false,
+    % numbers = left,
+    numbersep = 6pt,
+    numberstyle={\ttfamily\color{listnumbers}},
+    tabsize = 2,
+    language=Matlab,
+    floatplacement=!h
+  }
+}
+
+ \newcommand{\lstlua}
+ {
+\lstset{frame = tb,
+    framerule = 0.25pt,
+    belowcaptionskip = 8pt,
+    float,
+    fontadjust,
+    backgroundcolor={\color{listlightgray}},
+    basicstyle = {\ttfamily\footnotesize},
+    keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+    identifierstyle = {\ttfamily},
+    commentstyle = {\ttfamily\color{listcomment}\textit},
+    stringstyle = {\ttfamily},
+    showstringspaces = false,
+    showtabs = false,
+    % numbers = left,
+    numbersep = 6pt,
+    numberstyle={\ttfamily\color{listnumbers}},
+    tabsize = 2,
+    language=Lua,
+    floatplacement=!h
+  }
+}
+
+ \newcommand{\lstpython}
+ {
+\lstset{frame = tb,
+    framerule = 0.25pt,
+    belowcaptionskip = 8pt,
+    float,
+    fontadjust,
+    backgroundcolor={\color{listlightgray}},
+    basicstyle = {\ttfamily\footnotesize},
+    keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+    identifierstyle = {\ttfamily},
+    commentstyle = {\ttfamily\color{listcomment}\textit},
+    stringstyle = {\ttfamily},
+    showstringspaces = false,
+    showtabs = false,
+    % numbers = left,
+    numbersep = 6pt,
+    numberstyle={\ttfamily\color{listnumbers}},
+    tabsize = 2,
+    language=Python,
+    floatplacement=!h
+  }
+}
+
+\definecolor{listcomment}{rgb}{0.0,0.5,0.0}
+\definecolor{listkeyword}{rgb}{0.0,0.0,0.5}
+\definecolor{listnumbers}{gray}{0.65}
+\definecolor{listlightgray}{gray}{0.955}
+\definecolor{listwhite}{gray}{1.0}
+
+\definecolor{listcomment}{rgb}{0.0,0.0,1.0}
+\definecolor{listkeyword}{rgb}{0.5,0.0,0.0}
+\definecolor{listidentifier}{rgb}{0.0,0.3,0.0}
+\definecolor{listdirective}{rgb}{0.5,0.0,1.0}
+\definecolor{liststring}{rgb}{1.0,0.0,1.0}
+\definecolor{listnumbers}{gray}{0.65}
+\definecolor{listlightgray}{gray}{0.955}
+\definecolor{listwhite}{gray}{1.0}
+\definecolor{listbackground}{rgb}{0.9,0.9,1.0}
+
+
+\lstset{language=C++}
+\lstset{numbers=left}
+\lstset{frame=tb}
+\lstset{xleftmargin=0.05\linewidth}
+\lstset{backgroundcolor=\color{listbackground}}
+\lstset{basicstyle=\tiny}
+\lstset{keywordstyle=\color{listkeyword}\bfseries}
+\lstset{identifierstyle=\color{listidentifier}}
+\lstset{directivestyle=\color{listdirective}}
+\lstset{commentstyle=\color{listcomment}}
+\lstset{stringstyle=\ttfamily\color{liststring}}
+\lstset{showstringspaces=false}
+
+\newcommand{\lstlistingwithnumber}[3]{
+\begin{center}
+\lstinputlisting[linerange={#1-#2},firstnumber=#1,numbers=left]{#3}
+\end{center}
+}

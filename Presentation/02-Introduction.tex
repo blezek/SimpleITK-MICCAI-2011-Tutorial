@@ -1,0 +1,100 @@
+\section{Introduction}
+
+\begin{frame}
+\frametitle{Introductions}
+
+\begin{itemize}
+\item Daniel Blezek, Ph.D., Mayo Clinic
+\item Luis Ib\'a\~nez, Ph.D., Kitware
+\item Bradley Lowekamp, Lockheed Martin (National Library of Medicine)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Tutorial Goals}
+\begin{itemize}
+\item Gentle introduction to ITK
+\item Introduce SimpleITK
+\item Provide hands-on experience
+\item Problem solving, not direction following
+\item ...but please follow directions!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ITK Overview}
+How many are familiar with ITK?
+\end{frame}
+
+\begin{frame}
+\frametitle{Ever seen code like this?}
+\begin{center}
+\lstcpp
+\lstinputlisting{Code/DiscreteGaussianFilter.cxx}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{What if you could write this?}
+\begin{center}
+\lstpython
+\lstinputlisting{Code/DiscreteGaussianFilter.py}
+\end{center}
+\pause
+We are here to tell you that you can...
+\end{frame}
+
+\begin{frame}{Goals of SimpleITK}
+\begin{itemize}
+\item Provide a typeless layer for ITK in C++
+\item Provide wrappings in scripting languages
+\item Simplify the use of ITK
+\item Be an ``on-ramp'' for ITK
+\end{itemize}
+\end{frame}
+
+\begin{frame}{SimpleITK Architectural Overview}
+\begin{itemize}
+\item Conceptually, SimpleITK is an application library built on ITK
+\item Provides no functionality apart from what ITK
+\item Consists of:
+  \begin{itemize}
+    \item Template expansion system
+    \item C++ library
+    \item Small SWIG definition (more details later)
+    \item ``Glue'' code for several scripting languages
+    \item Some language utilities
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Templates in ITK}
+\begin{center}
+\lstcpp
+\lstinputlisting{Code/ITKTemplateSample.cxx}
+\end{centering}
+\end{frame}
+
+\begin{frame}
+\frametitle{Template Freedom}
+\end{frame}
+
+\begin{frame}
+\frametitle{Programming Models}
+\begin{itemize}
+\item Object oriented
+\item Function oriented
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Wrapping}
+Transformed by SWIG
+\end{frame}
+
+
+
+
+
+% LocalWords:  SimpleITK typeless ITK
