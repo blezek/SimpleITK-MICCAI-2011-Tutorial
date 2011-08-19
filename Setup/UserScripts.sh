@@ -10,3 +10,14 @@ emacs SimpleITK-build/ITK-build/CMakeCache.txt
 emacs SimpleITK-build/SimpleITK-build/CMakeCache.txt
 
 make -j 6
+
+
+cd ~
+ipython profile create
+cat > .ipython/ipython_config.py <<EOF
+import sys
+sys.pyth.append("/home/tutorial/Source/SimpleITK-build/lib")
+sys.pyth.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
+EOF
+
+

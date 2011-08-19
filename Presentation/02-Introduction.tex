@@ -47,18 +47,21 @@ We are here to tell you that you can...
 
 \begin{frame}{Goals of SimpleITK}
 \begin{itemize}
-\item Provide a typeless layer for ITK in C++
-\item Provide wrappings in scripting languages
-\item Simplify the use of ITK
 \item Be an ``on-ramp'' for ITK
+\item Simplify the use of ITK by
+  \begin{itemize}
+  \item Providing a templateless, typeless layer for ITK in C++
+  \item Providing wrappings in scripting languages
+  \item Providing access to most ITK algorithms
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{SimpleITK Architectural Overview}
 \begin{itemize}
 \item Conceptually, SimpleITK is an application library built on ITK
-\item Provides no functionality apart from what ITK
-\item Consists of:
+\item All functionality provided by ITK
+\item Components:
   \begin{itemize}
     \item Template expansion system
     \item C++ library
@@ -66,6 +69,8 @@ We are here to tell you that you can...
     \item ``Glue'' code for several scripting languages
     \item Some language utilities
   \end{itemize}
+\item Open Source, Apache licensed project (\url{http://www.opensource.org/licenses/apache2.0.php})
+\item Hosted by GitHub (\url{https://github.com/SimpleITK/SimpleITK})
 \end{itemize}
 \end{frame}
 
@@ -78,6 +83,10 @@ We are here to tell you that you can...
 
 \begin{frame}
 \frametitle{Template Freedom}
+\begin{center}
+\lstcpp
+\lstinputlisting{Code/SimpleITKTemplatelessSample.cxx}
+\end{center}
 \end{frame}
 
 \begin{frame}
@@ -86,11 +95,24 @@ We are here to tell you that you can...
 \item Object oriented
 \item Function oriented
 \end{itemize}
+More about this later
 \end{frame}
 
 \begin{frame}
 \frametitle{Wrapping}
 Transformed by SWIG
+\begin{itemize}
+\item Parses header and ``interface'' files
+\item Automatically creates scripting ``glue''
+\item Wrappings available for:
+\begin{itemize}
+  \item Python
+  \item Java
+  \item C\#
+  \item Tcl, Lua, Ruby
+  \item Others as requested\dots
+\end{itemize}
+\end{itemize}
 \end{frame}
 
 
