@@ -20,7 +20,7 @@
 *.mtc
 *.mtc1
 *.out
-*.synctex.gz
+*.synctex.gz*
 *.fdb_latexmk
 *.nav
 *.pdf

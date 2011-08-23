@@ -3,9 +3,54 @@
 %%%%%%%%%%%%%
 \subsection{Filters}
 
-\begin{frame}
-\frametitle{Where did the pipeline go?}
+%% Break
+\begin{frame}{Basic Tutorial 2}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+Basic Tutorial 2
+\end{center}
+\end{frame}
 
+
+\begin{frame}{Filters}
+iPython examples
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{What just happened?}
+\lstpython
+\begin{lstlisting}
+# Simple smoothing
+smooth = SimpleITK.SmoothingRecursiveGaussian ( image, 2.0 )
+SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+...
+RuntimeError: Exception thrown in SimpleITK Subtract: ...
+sitk::ERROR: Both images for SubtractImageFilter don't match type or dimension!
+...
+\end{lstlisting}
+
+\begin{itemize}
+  \item The output of SmoothingRecursiveGaussian is of type float
+  \item The input image is signed short
+  \item Most SimpleITK filters with 2 inputs require the same type
+  \item Let's fix the problem
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Introducing Cast}
+\lstpython
+\begin{lstlisting}
+# Much better
+smooth = SimpleITK.Cast ( smooth, image.GetPixelIDValue() )
+print image.GetPixelIDTypeAsString()
+print smooth.GetPixelIDTypeAsString()
+SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}
@@ -16,7 +61,12 @@
 
 \subsection{Label Maps}
 
-
-
-
+%% Break
+\begin{frame}{Break}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+Break
+\end{center}
+\end{frame}
 
