@@ -2,6 +2,7 @@
 sudo apt-get remove cmake
 sudo apt-get install libncurses5-dev ipython
 sudo apt-get install libcv2.1 libcv-dev python-dev emacs vim tcl-dev tk-dev ruby-dev
+sudo apt-get make gcc git g++
 
 # install Java, accept the license
 sudo add-apt-repository "deb http://archive.canonical.com/ubuntu maverick partner"
