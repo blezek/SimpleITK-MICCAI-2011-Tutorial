@@ -1,47 +1,104 @@
 # Welcome to the Filters demo
 print 'SimpleITK Filters'
 
-# <demo> --- stop ---
+# <demo> auto
 
 # Every demo starts by importing the SimpleITK module
-import SimpleITK
+import SimpleITK as sitk
 
-# <demo> --- stop ---
+# <demo> stop
 
 # Find some data
 import os
 dataDir = os.environ["HOME"] + "/Source/SimpleITK/Testing/Data/Input"
-image = SimpleITK.ReadImage ( dataDir + "/RA-Short.nrrd" )
-SimpleITK.Show ( image )
+image = sitk.ReadImage ( dataDir + "/RA-Short.nrrd" )
+sitk.Show ( image )
 
 # <demo> --- stop ---
 
 # Simple smoothing
-smooth = SimpleITK.SmoothingRecursiveGaussian ( image, 2.0 )
-SimpleITK.Show ( smooth )
+smooth = sitk.SmoothingRecursiveGaussian ( image, 2.0 )
+sitk.Show ( smooth )
 
 # <demo> --- stop ---
 
-# Boom!  What happened?
-SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+# Tired of typing SmoothingRecursiveGaussian ?
+Gaussian = sitk.SmoothingRecursiveGaussian
+smooth = Gaussian ( image, 4. )
+sitk.Show ( smooth )
+
+# <demo> --- stop ---
+
+# Show the difference between the original and smoothed
+sitk.Show ( sitk.Subtract ( image, smooth ) )
+
+# Boom! Back to slides to explain!
 
 # <demo> --- stop ---
 
 # Much better
-smooth = SimpleITK.Cast ( smooth, image.GetPixelIDValue() )
-print image.GetPixelIDTypeAsString()
-print smooth.GetPixelIDTypeAsString()
-SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+print "Before: ", smooth.GetPixelIDTypeAsString()
+smooth = sitk.Cast ( smooth, image.GetPixelIDValue() )
+print "After: ", smooth.GetPixelIDTypeAsString()
+sitk.Show ( sitk.Subtract ( image, smooth ), "DiffWithGaussian" )
 
 # <demo> --- stop ---
+
+# Some other example filters
+
+# Flip
+sitk.Show ( sitk.Flip ( image ), "Flipped" )
+
+# <demo> stop
+
+# Canny edges
+sitk.Show ( sitk.CannyEdgeDetection ( image ), "Canny" )
+
+# <demo> stop
+
+# Sharpen
+sitk.Show ( sitk.LaplacianSharpening ( image ), "Sharp" )
+
+# <demo> stop
+
+# Shrink
+sitk.Show ( sitk.Shrink ( image, [2,2,2] ), "Shrunk" )
+
+# <demo> stop
+
+# Extract
+size = [64, 64, 1]
+start = [64, 0, 0]
+sitk.Show ( sitk.Extract ( image, size, start ), "Extracted" )
+
+# <demo> stop
+
+# Distance map
+sitk.Show ( sitk.SignedMaurerDistanceMap ( image ), "DistanceMap" )
+
+# <demo> stop
 
 # 3D image
-image = SimpleITK.ReadImage ( dataDir + "/OAS1_0001_MR1_mpr-1_anon.nrrd" )
-SimpleITK.Show ( image )
+image = sitk.ReadImage ( dataDir + "/OAS1_0001_MR1_mpr-1_anon.nrrd" )
+sitk.Show ( image )
 
 # <demo> --- stop ---
+# Flip
+sitk.Show ( sitk.Flip ( image ), "Flipped" )
 
+# <demo> stop
 
+# Canny edges
+sitk.Show ( sitk.CannyEdgeDetection ( image ), "Canny" )
 
-# <demo> --- stop ---
-# <demo> --- stop ---
+# <demo> stop
+
+# Sharpen
+sitk.Show ( sitk.LaplacianSharpening ( image ), "Sharp" )
+
+# <demo> stop
+
+# Shrink
+sitk.Show ( sitk.Shrink ( image ), [2,2,2] )
+
+# <demo> stop

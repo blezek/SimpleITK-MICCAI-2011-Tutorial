@@ -4,12 +4,12 @@ print 'SimpleITK Image Basics'
 # <demo> --- stop ---
 
 # Every demo starts by importing the SimpleITK module
-import SimpleITK
+import SimpleITK as sitk
 
 # <demo> --- stop ---
 
 # Create an image
-image = SimpleITK.Image ( 256, 128, 64, SimpleITK.sitkInt16 );
+image = sitk.Image ( 256, 128, 64, sitk.sitkInt16 );
 
 # <demo> --- stop ---
 
@@ -62,33 +62,8 @@ image[0,0,0]
 # <demo> --- stop ---
 
 # How about 2d?
-twoD = SimpleITK.Image ( 64, 64, SimpleITK.sitkFloat32 )
+twoD = sitk.Image ( 64, 64, sitk.sitkFloat32 )
 twoD.GetDimension()
 twoD.GetSize()
 
-# <demo> --- stop ---
-
-# Summary
-
-# <demo> --- stop ---
-
-# Input and Output
-
-
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-
-
-
-
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
 # <demo> --- stop ---

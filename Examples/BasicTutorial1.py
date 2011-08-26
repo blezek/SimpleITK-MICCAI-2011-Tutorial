@@ -1,6 +1,6 @@
-from IPython.lib.demo import ClearDemo
+import IPython.lib.demo
 
 
 def ImageDemo():
-    return ClearDemo ( 'BasicTutorial1/00-Image.py' )
+    return IPython.lib.ClearIPDemo ( 'BasicTutorial1/00-Image.py' )
 
