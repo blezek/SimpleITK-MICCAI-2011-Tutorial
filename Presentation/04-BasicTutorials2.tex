@@ -86,131 +86,6 @@ Basic Tutorial 2
 \end{itemize}
 \end{frame}
 
-\subsection{Code Philosophy}
-\begin{frame}{Code Philosophy}
-\fontsize{36pt}{36pt}\selectfont
-\center
-\begin{center}
-Code Philosophy
-\end{center}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Filter Class Overview (C++)}
-\lstcpp
-\begin{lstlisting}
-class SmoothingRecursiveGaussianImageFilter : (* \label{Declaration} *)
-    public ImageFilter {
-  typedef SmoothingRecursiveGaussianImageFilter Self; (* \label{Self} *)
-
-  /** Default Constructor that takes no arguments
-      and initializes default parameters */
-  SmoothingRecursiveGaussianImageFilter(); (* \label{Constructor} *)
-
-\end{lstlisting}
-\begin{itemize}
-  \item In line \ref{Declaration}, we declare a subclass of ImageFilter
-  \item Line \ref{Self} creates a special typedef for use later
-  \item The default constructor is line \ref{Constructor} (never any parameters)
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Filter Class Overview (C++) Continued}
-\lstcpp
-\begin{lstlisting}
-  /** Define the pixels types supported by this filter */
-  typedef BasicPixelIDTypeList  PixelIDTypeList; (* \label{PixelIDTypeList} *)
-
-\end{lstlisting}
-\begin{itemize}
-  \item Notice $PixelIDTypeList$ in line \ref{PixelIDTypeList}
-  \item Used to instantiate ITK filters
-  \item Determines valid input image types
-  \item $BasicPixelIDTypeList$ expands to:
-  \begin{itemize}
-    \item $int8\_t$, $uint8\_t$
-    \item $int16\_t$, $uint16\_t$
-    \item $int32\_t$, $uint32\_t$
-    \item $float$, $double$
-  \end{itemize}
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Filter Class Overview (C++) Continued}
-\lstcpp
-\begin{lstlisting}
-  Self& SetSigma ( double t ) { ... return *this; }
-  double GetSigma() { return this->m_Sigma; }
-
-  Self& SetNormalizeAcrossScale ( bool t ) { ... }
-  Self& NormalizeAcrossScaleOn() { ... }
-  Self& NormalizeAcrossScaleOff() { ... }
-
-  bool GetNormalizeAcrossScale() { ... }
-\end{lstlisting}
-\begin{itemize}
-  \item Get/Set parameters
-  \item Set methods always return $Self\&$ (more later)
-  \item Generally, a direct mapping to ITK
-  \item Boolean parameters generate $On$ and $Off$ methods
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Filter Class Overview (C++) Continued}
-\lstcpp
-\begin{lstlisting}
-  /** Name of this class */
-  std::string GetName() const { ... }
-
-  /** Print ourselves out */
-  std::string ToString() const;
-\end{lstlisting}
-\begin{itemize}
-  \item Return the name and description of the filter
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Filter Class Overview (C++) Continued}
-\lstcpp
-\begin{lstlisting}
-  /** Execute the filter on the input image */
-  Image Execute ( const Image & );
-
-  /** Execute the filter with parameters */
-  Image Execute ( const Image &,
-    double inSigma,
-    bool inNormalizeAcrossScale );
-};  /* End of class SmoothingRecursiveGaussian */
-
-Image SmoothingRecursiveGaussian ( const Image& , (* \label{Function} *)
-  double inSigma = 1.0,
-  bool inNormalizeAcrossScale = false );
-
-\end{lstlisting}
-\begin{itemize}
-  \item Run the filter on an image and return the result
-  \item Notice extra function (line \ref{Function}), adds flexibility
-  \item Drop $ImageFilter$ from class name to get function name
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Questions?}
-\fontsize{36pt}{36pt}\selectfont
-\center
-\begin{center}
-Questions?
-\end{center}
-\end{frame}
-
 \subsection{Using Filters}
 \begin{frame}{Using Filters}
 \fontsize{36pt}{36pt}\selectfont
@@ -421,9 +296,13 @@ Image blurredImage = gaussian.Execute ( image );
 \end{itemize}
 \end{frame}
 
-
-\begin{frame}{Filters}
-iPython examples
+\subsection{Example}
+\begin{frame}{Hands On}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+Hands On
+\end{center}
 \end{frame}
 
 \begin{frame}[fragile]

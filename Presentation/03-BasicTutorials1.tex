@@ -60,6 +60,7 @@ See /home/tutorial/.ipython/ipython.py
   \item Number of dimensions, size, origin, spacing
   \item Pixel access
 \end{itemize}
+Back to iPython
 \end{frame}
 
 % Must use the [fragile] option!
@@ -70,6 +71,9 @@ See /home/tutorial/.ipython/ipython.py
 # Create an image
 image = SimpleITK.Image ( 256, 256, 256,
                           SimpleITK.sitkInt16 );
+# How about 2d?
+twoD = SimpleITK.Image ( 64, 64,
+                         SimpleITK.sitkFloat32 )
 \end{lstlisting}
 
 \begin{itemize}
@@ -78,7 +82,7 @@ image = SimpleITK.Image ( 256, 256, 256,
   \item Height, width, depth (omit depth for 2D images)
   \item Datatype (more on this later)
 \end{itemize}
-
+Back to iPython
 \end{frame}
 
 
@@ -96,6 +100,7 @@ image.GetPixel ( 0, 0, 0 )
   \item Hmm, I don't like it, so set to 1
   \item What is the value at [0,0,0] now?
 \end{itemize}
+Back to iPython
 \end{frame}
 
 \begin{frame}[fragile]

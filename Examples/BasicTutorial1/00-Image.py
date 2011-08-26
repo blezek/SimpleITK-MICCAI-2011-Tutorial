@@ -8,8 +8,10 @@ import SimpleITK
 
 # <demo> --- stop ---
 
-# Create an image
+# Create an image, details in the presentation
 image = SimpleITK.Image ( 256, 128, 64, SimpleITK.sitkInt16 );
+# How about 2d?
+twoD = SimpleITK.Image ( 64, 64, SimpleITK.sitkFloat32 )
 
 # <demo> --- stop ---
 
@@ -47,48 +49,16 @@ image.GetPixelIDTypeAsString()
 
 # <demo> --- stop ---
 
-# Addressing pixels
+# Addressing pixels, details in the presentation
 image.GetPixel ( 0, 0, 0 )
 image.SetPixel ( 0, 0, 0, 1 )
 image.GetPixel ( 0, 0, 0 )
 
 # <demo> --- stop ---
 
-# Addressing pixels the easier way
+# Addressing pixels the easier way, details in the presentation
 image[0,0,0]
 image[0,0,0] = 10
 image[0,0,0]
 
-# <demo> --- stop ---
-
-# How about 2d?
-twoD = SimpleITK.Image ( 64, 64, SimpleITK.sitkFloat32 )
-twoD.GetDimension()
-twoD.GetSize()
-
-# <demo> --- stop ---
-
-# Summary
-
-# <demo> --- stop ---
-
-# Input and Output
-
-
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-
-
-
-
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
-# <demo> --- stop ---
 # <demo> --- stop ---
