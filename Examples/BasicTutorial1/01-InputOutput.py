@@ -4,7 +4,7 @@ print 'SimpleITK Input Output'
 # <demo> --- stop ---
 
 # Every demo starts by importing the SimpleITK module
-import SimpleITK
+import SimpleITK as sitk
 
 # <demo> --- stop ---
 
@@ -15,7 +15,7 @@ dataDir = os.environ["HOME"] + "/Source/SimpleITK/Testing/Data/Input"
 # <demo> --- stop ---
 
 # Create a reader
-reader = SimpleITK.ImageFileReader()
+reader = sitk.ImageFileReader()
 reader.SetFileName ( dataDir + "/WhiteDots.png" )
 # Read
 image = reader.Execute()
@@ -23,7 +23,7 @@ image = reader.Execute()
 # <demo> --- stop ---
 
 # meh, do it with less typing
-image = SimpleITK.ReadImage ( dataDir + "/WhiteDots.png" )
+image = sitk.ReadImage ( dataDir + "/WhiteDots.png" )
 
 # <demo> --- stop ---
 
@@ -33,17 +33,12 @@ print image
 # <demo> --- stop ---
 
 # What's the image look like?
-SimpleITK.Show ( image )
+sitk.Show ( image )
 
 # <demo> --- stop ---
 
 # 3D image
-image = SimpleITK.ReadImage ( dataDir + "/OAS1_0001_MR1_mpr-1_anon.nrrd" )
-SimpleITK.Show ( image )
+image = sitk.ReadImage ( dataDir + "/OAS1_0001_MR1_mpr-1_anon.nrrd" )
+sitk.Show ( image )
 
-# <demo> --- stop ---
-
-
-
-# <demo> --- stop ---
 # <demo> --- stop ---

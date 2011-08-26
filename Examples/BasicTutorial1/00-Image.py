@@ -4,7 +4,7 @@ print 'SimpleITK Image Basics'
 # <demo> --- stop ---
 
 # Every demo starts by importing the SimpleITK module
-import SimpleITK
+import SimpleITK as sitk
 
 # <demo> --- stop ---
 
