@@ -1,5 +1,7 @@
 project(AdvancedTutorials)
 
+cmake_minimum_required(VERSION 2.8)
+
 set(ITK_INSTALL_PREFIX "$ENV{HOME}/Source/SimpleITK-build")
 find_package(ITK REQUIRED HINTS $ENV{HOME}/Source/SimpleITK-build/lib/cmake/ITK-4.0/)
 if(ITK_FOUND)
@@ -29,3 +31,4 @@ $ENV{HOME}/Source/SimpleITK-build/lib
 
 set(SimpleITK_LIBS SimpleITKBasicFilters SimpleITKCommon SimpleITKIO)
 add_subdirectory ( ToOpenCV )
+add_subdirectory ( ToOpenCVAndBack )
