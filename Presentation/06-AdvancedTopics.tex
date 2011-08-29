@@ -143,6 +143,89 @@ Questions?
 \frametitle{Interfacing with OpenCV (or other libraries)}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{To OpenCV}
+Problem: Use SimpleITK from another image processing library
+
+\texttt{./ToOpenCV input.png output.png}
+
+Steps:
+\begin{itemize}
+\item Load image using SimpleITK
+\item Convert to OpenCV
+\item Filter using OpenCV
+\item Save using OpenCV
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{ToOpenCV}
+Starting code: \texttt{ToOpenCV/ToOpenCV.cxx}\\
+Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
+\begin{lstlisting}
+#include <SimpleITK.h>
+#include <opencv2/opencv.hpp>
+
+...
+  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+
+  // Convert ITK to OpenCV image
+  cv::Mat ocvImage;
+
+  // Filter and write using OpenCV
+  cv::Mat output;
+  cv::medianBlur ( ocvImage, output, 5 );
+
+  cv::imwrite ( outputFilename, output );
+...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToOpenCV -- Step 1}
+Convert the SimpleITK image to a float
+\begin{lstlisting}
+  if ( sitkImage.GetPixelIDValue() != itk::simple::sitkFloat32 )
+    {
+    std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString()
+              << " converting to float" << std::endl;
+    sitkImage = itk::simple::Cast ( sitkImage, itk::simple::sitkFloat32 );
+    }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToOpenCV -- Step 2}
+Get pixel data through the ITK image inside a SimpleITK image
+\begin{lstlisting}
+  // Go through ITK to grab the data
+  typedef itk::Image<float,2> ImageType;
+  ImageType::Pointer itkImage = (ImageType*)sitkImage.GetImageBase();
+
+  // Convert ITK to OpenCV image
+  cv::Mat ocvImage ( sitkImage.GetHeight(), sitkImage.GetWidth(), CV_32F,
+                     (void*)itkImage->GetBufferPointer() );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToOpenCV -- Step 3 (Optional)}
+Display the before and after
+\lstcppa
+\begin{lstlisting}
+// NB: the imshow function requires 8-bit data, so convert
+cv::Mat temp;
+ocvImage.convertTo ( temp, CV_8U );
+cv::imshow ( "original slice", temp );
+output.convertTo ( temp, CV_8U );
+cv::imshow ( "bilateral filtering", temp );
+
+std::cout << "Press any key to continue" << std::endl;
+cv::waitKey();
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}
 \frametitle{Extending SimpleITK}
 JSON and friends
