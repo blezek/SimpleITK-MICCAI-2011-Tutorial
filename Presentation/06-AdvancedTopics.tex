@@ -226,6 +226,114 @@ cv::waitKey();
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back}
+Problem: Use OpenCV to process a SimpleITK volume slice-by-slice
+
+\texttt{./ToOpenCVAndBack input.nii output.nii}
+
+Steps:
+\begin{itemize}
+\item Load image using SimpleITK
+\item Extract slice
+\item Convert to OpenCV
+\item Filter using OpenCV
+\item Past slice back to SimpleITK
+\item Save result
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back}
+Starting code: \texttt{ToOpenCVAndBack/ToOpenCVAndBack.cxx}\\
+Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
+\begin{lstlisting}
+...
+itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+
+for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
+  {
+  // Extract a slice
+  // Go through ITK to grab the data
+  // Convert ITK to OpenCV image
+  // Filter using OpenCV
+  // Convert back to SimpleITK
+  // Paste the image back into SimpleITK
+  }
+itk::simple::WriteImage ( sOutput, outputFilename );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 1: Extract a slice}
+\begin{lstlisting}
+// Extract a slice
+std::vector<unsigned int> size = sitkImage.GetSize();
+size[2] = 1;
+std::vector<int> index ( 3, 0 );
+index[2] = s;
+std::cout << "Extracting: " << s << std::endl;
+itk::simple::Image slice = itk::simple::RegionOfInterest ( sitkImage, size, index );
+
+if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
+  {
+  slice = itk::simple::Cast ( slice, itk::simple::sitkFloat32 );
+  }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 2: Get data via ITK}
+\begin{lstlisting}
+  // Go through ITK to grab the data
+  typedef itk::Image<float,2> ImageType;
+  ImageType::Pointer itkImage = (ImageType*)slice.GetImageBase();
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 3: Convert to OpenCV}
+\begin{lstlisting}
+// Convert ITK to OpenCV image
+  cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(),
+                     CV_32F,  (void*)itkImage->GetBufferPointer() );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 4: Filter using OpenCV}
+\begin{lstlisting}
+  // Filter using OpenCV
+  cv::Mat output;
+  cv::Sobel ( ocvImage, output, -1, 1, 1 );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 5: Back to SimpleITK}
+\begin{lstlisting}
+  // Convert back to SimpleITK
+  itk::simple::ImportImageFilter importer;
+  importer.SetSize ( size );
+  importer.SetSpacing ( sitkImage.GetSpacing() );
+  importer.SetOrigin ( sitkImage.GetOrigin() );
+  importer.SetBufferAsFloat ( output.ptr<float>() );
+
+  itk::simple::Image toSimpleITKImage = importer.Execute();
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back - Step 6: Paste back into SimpleITK volume}
+\begin{lstlisting}
+  // Paste the image back into SimpleITK
+  // Paste ( Destination, Source, SourceSize, SourceIndex, DestIndex )
+  sOutput = itk::simple::Paste ( sOutput, toSimpleITKImage,
+            toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
+\end{lstlisting}
+\end{frame}
+
 \begin{frame}
 \frametitle{Extending SimpleITK}
 JSON and friends
