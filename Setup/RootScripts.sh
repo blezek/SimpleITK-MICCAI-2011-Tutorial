@@ -20,11 +20,13 @@ sudo cp nifti_io.jar /usr/lib/fiji/plugins
 sudo apt-add-repository ppa:jtaylor/ipython-dev
 sudo apt-get install ipython-qtconsole
 
-cd /tmp/ && wget http://www.cmake.org/files/v2.8/cmake-2.8.5.tar.gz && tar fxvz cmake-2.8.5.tar.gz
-cd cmake-2.8.5/ && sudo ./configure --prefix=/usr && sudo make install
-
 # OpenCV
 sudo add-apt-repository ppa:gijzelaar/opencv2
 sudo apt-get update
 sudo apt-get install opencv
 sudo apt-get install libopencv-dev
+
+# CMake, must be installed to replace tho cmake that OpenCV installs
+cd /tmp/ && wget http://www.cmake.org/files/v2.8/cmake-2.8.5.tar.gz && tar fxvz cmake-2.8.5.tar.gz
+cd cmake-2.8.5/ && sudo ./configure --prefix=/usr && sudo make -j 4 install
+
