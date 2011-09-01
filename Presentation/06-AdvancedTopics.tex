@@ -1,12 +1,229 @@
 \section{Advanced Topics}
 
-\begin{frame}
-\frametitle{Building SimpleITK}
+\begin{frame}[fragile]
+\frametitle{Building SimpleITK in 5 Easy Commands}
+\small
+\begin{verbatim}
+git clone --recursive https://github.com/SimpleITK/SimpleITK
+( cd SimpleITK && git checkout va01 )
+mkdir SimpleITK-build && cd SimpleITK-build
+cmake ../SimpleITK/SuperBuild
+make -j 5
+\end{verbatim}
+\normalsize
 \end{frame}
 
-\begin{frame}
-\frametitle{SimpleITK architecture}
+\begin{frame}[fragile]
+\frametitle{More complete version}
+\begin{itemize}
+  \item Check out the code from GitHub (\url{https://github.com/SimpleITK/SimpleITK})
+  \item Run CMake (\url{http://www.cmake.org/}) using SimpleITK/SuperBuild as the source directory
+  \item Build using your favorite compiler
+\end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Supported Platforms}
+\begin{itemize}
+  \item Windows: Visual Studio 10
+  \item Windows: Visual Studio 9 (Requires TR1 service pack)
+  \item Mac OSX: gcc 4.x
+  \item Linux: gcc 4.x
+\end{itemize}
+\end{frame}
+
+\begin{frame}{SimpleITK Architecture}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+SimpleITK Architecture
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Filter Anatomy}
+\begin{center}
+  \includegraphics[width=.8\textwidth]{Images/FilterOverview_shadow}
+\end{center}
+\begin{itemize}
+  \item SimpleITK filters create ITK filters
+  \item Templated based on input type
+  \item Output type is usually the same as input type
+  \item Instantiated for many possible image types
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Image and Filter Types}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{itemize}
+      \item Dimensions
+      \begin{itemize}
+        \item 2 dimensional
+        \item 3 dimensional
+      \end{itemize}
+      \item Scalar types
+      \begin{itemize}
+        \item $int8\_t$
+        \item $uint8\_t$
+        \item $int16\_t$
+        \item $uint16\_t$
+        \item $int32\_t$
+        \item $uint32\_t$
+        \item $float$
+        \item $double$
+        \item $std::complex< float >$
+        \item $std::complex< double >$
+      \end{itemize}
+    \end{itemize}
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+     \begin{itemize}
+       \item Vector Types
+       \begin{itemize}
+         \item $int8\_t$
+         \item $uint8\_t$
+         \item $int16\_t$
+         \item $uint16\_t$
+         \item $float$
+         \item $double$
+       \end{itemize}
+       \item Label Types
+       \begin{itemize}
+         \item $uint8\_t$
+         \item $uint16\_t$
+         \item $uint32\_t$
+       \end{itemize}
+    \end{itemize}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Filter Anatomy}
+\begin{center}
+  \includegraphics[width=.8\textwidth]{Images/FilterInternals_shadow}
+\end{center}
+\begin{itemize}
+  \item Filter interrogates $input$
+  \item Instantiates proper ITK filter
+  \item Executes ITK filter
+  \item Constructs $output$ from ITK image
+\end{itemize}
+\end{frame}
+
+\subsection{Using Filters}
+\begin{frame}{Using Filters}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+Using Filters
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Object Paradigm (C++)}
+\lstcpp
+\begin{lstlisting}
+#include <SimpleITK.h>
+using itk::simple;
+...
+// Create a smoothing filter
+SmoothingRecursiveGaussianImageFilter gaussian;
+
+// Set a parameter
+gaussian.SetSigma ( 2.0 );
+
+// "Execute" the Filter
+Image blurredImage = gaussian.Execute ( image );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Object Paradigm (C++)}
+Flexibility
+\lstcpp
+\begin{lstlisting}
+#include <SimpleITK.h>
+using itk::simple;
+...
+// Create a smoothing filter
+SmoothingRecursiveGaussianImageFilter gaussian;
+
+// Set parameter(s), then execute
+Image blurredImage = gaussian
+                       .SetSigma ( 2.0 )
+                       .Execute ( image );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Object Paradigm (C++)}
+\lstcpp
+\begin{lstlisting}
+#include <SimpleITK.h>
+using itk::simple;
+...
+blurredImage = SmoothingRecursiveGaussianImageFilter()
+                   .SetSigma ( 2.0 )
+                   .SetRadius ( 5 )
+                   .Execute ( image );
+\end{lstlisting}
+One line: create anonymous filter, set parameters, and execute
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{``Function'' Paradigm (C++)}
+\lstcpp
+\begin{lstlisting}
+#include <SimpleITK.h>
+using itk::simple;
+...
+// Call the function version
+// NB: Drop the "ImageFilter"!
+// Signature:
+/*
+    Image SmoothingRecursiveGaussian (
+      const Image&,
+      double inSigma = 1.0,
+      bool inNormalizeAcrossScale = false );
+*/
+Image blurredImage = SmoothingRecursiveGaussian (
+                        image,
+                        2.0,
+                        false );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Mix \& Match (C++)}
+\lstcpp
+\begin{lstlisting}
+#include <SimpleITK.h>
+using itk::simple;
+...
+// Get our gaussian ready
+SmoothingRecursiveGaussianImageFilter gaussian;
+gaussian.SetSigma ( 2.0 );
+
+// What is the effect on the image
+Image difference = Subtract (
+                     image,
+                     gaussian.Execute ( image )
+                     );
+Image difference2 = Subtract (
+                     image,
+                     SmoothingRecursiveGaussian (
+                       image, 2.0
+                       )
+                     );
+
+\end{lstlisting}
+\end{frame}
+
+
 
 \subsection{Code Philosophy}
 \begin{frame}{Code Philosophy}
@@ -134,18 +351,107 @@ Questions?
 \end{frame}
 
 
-
-\begin{frame}
+\subsection{Interface with ITK}
+\begin{frame}[fragile]
 \frametitle{Using ITK with SimpleITK}
-\end{frame}
+Problem: Use ITK from SimpleITK (or vice versa)
 
-\begin{frame}
-\frametitle{Interfacing with OpenCV (or other libraries)}
+\texttt{./ToITK input.nii output.nii}
+
+Steps:
+\begin{itemize}
+\item Load image using SimpleITK
+\item Filter using ITK
+\item Save using OpenCV
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
+\frametitle{To ITK}
+Starting code: \texttt{ToITK/ToITK.cxx}\\
+Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
+\begin{lstlisting}
+...
+  // Load the image via SimpleITK
+  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+
+  // Construct the ITK Pipeline
+  // Link pipeline to SimpleITK
+  // Update pipeline
+  // Create output SimpleITK image
+  // Save image via SimpleITK
+  itk::simple::WriteImage ( sOutput, outputFilename );
+  return EXIT_SUCCESS;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToITK -- Step 1: Construct the ITK Pipeline}
+\begin{lstlisting}
+  // Construct the ITK Pipeline
+  typedef itk::Image<float,3> ImageType;
+  typedef itk::MirrorPadImageFilter<ImageType,ImageType> PadFilterType;
+  PadFilterType::SizeType upperBound, lowerBound;
+
+  PadFilterType::Pointer pad = PadFilterType::New();
+  for ( unsigned int i = 0; i < 3; i++ )
+    {
+      upperBound[i] = sitkImage.GetSize()[i];
+      lowerBound[i] = sitkImage.GetSize()[i];
+    }
+  pad->SetPadUpperBound ( upperBound );
+  pad->SetPadLowerBound ( lowerBound );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToITK -- Step 2: Link pipeline to SimpleITK}
+\begin{lstlisting}
+  // Link pipeline to SimpleITK
+  ImageType::Pointer inputImage = (ImageType*) sitkImage.GetImageBase();
+  pad->SetInput ( inputImage );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToITK -- Step 3: Update ITK Pipeline}
+\begin{lstlisting}
+  // Update pipeline
+  pad->Update();
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToITK -- Step 4: Create the SimpleITK output image}
+\begin{lstlisting}
+  // Create output SimpleITK image
+  itk::simple::Image sOutput ( pad->GetOutput() );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{ToITK -- (Optional) Step 5: Show}
+\begin{lstlisting}
+  // (Optional) Show the results
+  itk::simple::Show ( sOutput );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To ITK Solution}
+\texttt{\textasciitilde/Source/AdvancedTutorial-build/ToITK/ToITKSolution \textbackslash\\
+  \textasciitilde/Source/SimpleITK/Testing/Data/Input/RA-Float.nrrd \textbackslash\\
+  /tmp/foo.nii}
+\begin{center}
+  \includegraphics[width=0.3\textwidth]{Images/ToITKSolution_shadow}
+\end{center}
+\end{frame}
+
+
+\subsection{Interface with OpenCV}
+\begin{frame}[fragile]
 \frametitle{To OpenCV}
-Problem: Use SimpleITK from another image processing library
+Problem: Use SimpleITK from another image processing library (OpenCV)
 
 \texttt{./ToOpenCV input.png output.png}
 
@@ -170,7 +476,7 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 ...
   itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
 
-  // Convert ITK to OpenCV image
+  // Convert SimpleITK to OpenCV image
   cv::Mat ocvImage;
 
   // Filter and write using OpenCV
@@ -197,15 +503,11 @@ Convert the SimpleITK image to a float
 
 \begin{frame}[fragile]
 \frametitle{ToOpenCV -- Step 2}
-Get pixel data through the ITK image inside a SimpleITK image
+Get SimpleITK pixel data
 \begin{lstlisting}
-  // Go through ITK to grab the data
-  typedef itk::Image<float,2> ImageType;
-  ImageType::Pointer itkImage = (ImageType*)sitkImage.GetImageBase();
-
-  // Convert ITK to OpenCV image
+  // Convert SimpleITK to OpenCV image
   cv::Mat ocvImage ( sitkImage.GetHeight(), sitkImage.GetWidth(), CV_32F,
-                     (void*)itkImage->GetBufferPointer() );
+                     (void*)sitkImage.GetBufferAsFloat() );
 \end{lstlisting}
 \end{frame}
 
@@ -225,6 +527,17 @@ std::cout << "Press any key to continue" << std::endl;
 cv::waitKey();
 \end{lstlisting}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV Solution}
+\texttt{\textasciitilde/Source/AdvancedTutorial-build/ToOpenCV/ToOpenCV \textbackslash \\
+  \textasciitilde/Source/SimpleITK/Testing/Data/Input/cthead1.png \textbackslash \\
+/tmp/head.png}
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{Images/ToOpenCVSolution_shadow}
+\end{center}
+\end{frame}
+
 
 \begin{frame}[fragile]
 \frametitle{To OpenCV and Back}
@@ -284,25 +597,16 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{To OpenCV and Back - Step 2: Get data via ITK}
-\begin{lstlisting}
-  // Go through ITK to grab the data
-  typedef itk::Image<float,2> ImageType;
-  ImageType::Pointer itkImage = (ImageType*)slice.GetImageBase();
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{To OpenCV and Back - Step 3: Convert to OpenCV}
+\frametitle{To OpenCV and Back - Step 2: Convert to OpenCV}
 \begin{lstlisting}
 // Convert ITK to OpenCV image
   cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(),
-                     CV_32F,  (void*)itkImage->GetBufferPointer() );
+                     CV_32F, (void*)sitkImage.GetBufferAsFloat() );
 \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{To OpenCV and Back - Step 4: Filter using OpenCV}
+\frametitle{To OpenCV and Back - Step 3: Filter using OpenCV}
 \begin{lstlisting}
   // Filter using OpenCV
   cv::Mat output;
@@ -311,7 +615,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{To OpenCV and Back - Step 5: Back to SimpleITK}
+\frametitle{To OpenCV and Back - Step 4: Back to SimpleITK}
 \begin{lstlisting}
   // Convert back to SimpleITK
   itk::simple::ImportImageFilter importer;
@@ -325,7 +629,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{To OpenCV and Back - Step 6: Paste back into SimpleITK volume}
+\frametitle{To OpenCV and Back - Step 5: Paste back into SimpleITK volume}
 \begin{lstlisting}
   // Paste the image back into SimpleITK
   // Paste ( Destination, Source, SourceSize, SourceIndex, DestIndex )
@@ -334,7 +638,28 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
-\frametitle{Extending SimpleITK}
-JSON and friends
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back -- (Optional) Step 6: Show}
+\begin{lstlisting}
+  // (Optional) Show the results
+  itk::simple::Show ( sOutput );
+\end{lstlisting}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{To OpenCV and Back Solution}
+\texttt{\textasciitilde/Source/AdvancedTutorial-build/\textbackslash\\
+ToOpenCVAndBack/ToOpenCVAndBack \textbackslash \\
+  \textasciitilde/Source/SimpleITK/Testing/Data/Input/RA-Float.nrrd \textbackslash \\
+  /tmp/foo.nii}
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{Images/ToOpenCVAndBackSolution_shadow}
+\end{center}
+\end{frame}
+
+
+% Too advanced?
+%% \begin{frame}
+%% \frametitle{Extending SimpleITK}
+%% JSON and friends
+%% \end{frame}
