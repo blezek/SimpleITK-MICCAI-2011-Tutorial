@@ -22,9 +22,9 @@ make -j $np
 
 cd ~
 ipython profile create
-cat > .ipython/ipython_config.py <<EOF
+cat >> .config/ipython/profile_default/ipython_config.py <<EOF
 import sys
-sys.pyth.append("/home/tutorial/Source/SimpleITK-build/lib")
-sys.pyth.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
+sys.path.append("/home/tutorial/Source/SimpleITK-build/lib")
+sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
 EOF
 
