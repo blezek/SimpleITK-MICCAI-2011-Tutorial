@@ -128,16 +128,16 @@ Using Filters
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 
 // Set a parameter
 gaussian.SetSigma ( 2.0 );
 
 // "Execute" the Filter
-Image blurredImage = gaussian.Execute ( image );
+sitk::Image blurredImage = gaussian.Execute ( image );
 \end{lstlisting}
 \end{frame}
 
@@ -147,15 +147,15 @@ Flexibility
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 
 // Set parameter(s), then execute
-Image blurredImage = gaussian
-                       .SetSigma ( 2.0 )
-                       .Execute ( image );
+sitk::Image blurredImage = gaussian
+                             .SetSigma ( 2.0 )
+                             .Execute ( image );
 \end{lstlisting}
 \end{frame}
 
@@ -164,12 +164,12 @@ Image blurredImage = gaussian
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
-blurredImage = SmoothingRecursiveGaussianImageFilter()
-                   .SetSigma ( 2.0 )
-                   .SetRadius ( 5 )
-                   .Execute ( image );
+blurredImage = sitk::SmoothingRecursiveGaussianImageFilter()
+                         .SetSigma ( 2.0 )
+                         .SetRadius ( 5 )
+                         .Execute ( image );
 \end{lstlisting}
 One line: create anonymous filter, set parameters, and execute
 \end{frame}
@@ -179,21 +179,21 @@ One line: create anonymous filter, set parameters, and execute
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Call the function version
 // NB: Drop the "ImageFilter"!
 // Signature:
 /*
-    Image SmoothingRecursiveGaussian (
-      const Image&,
-      double inSigma = 1.0,
-      bool inNormalizeAcrossScale = false );
+    sitk::Image SmoothingRecursiveGaussian (
+            const Image&,
+            double inSigma = 1.0,
+            bool inNormalizeAcrossScale = false );
 */
-Image blurredImage = SmoothingRecursiveGaussian (
-                        image,
-                        2.0,
-                        false );
+sitk::Image blurredImage = sitk::SmoothingRecursiveGaussian (
+                              image,
+                              2.0,
+                              false );
 \end{lstlisting}
 \end{frame}
 
@@ -202,20 +202,20 @@ Image blurredImage = SmoothingRecursiveGaussian (
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Get our gaussian ready
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 gaussian.SetSigma ( 2.0 );
 
 // What is the effect on the image
-Image difference = Subtract (
+sitk::Image difference = sitk::Subtract (
+                           image,
+                           gaussian.Execute ( image )
+                           );
+sitk::Image difference2 = sitk::Subtract (
                      image,
-                     gaussian.Execute ( image )
-                     );
-Image difference2 = Subtract (
-                     image,
-                     SmoothingRecursiveGaussian (
+                     sitk::SmoothingRecursiveGaussian (
                        image, 2.0
                        )
                      );
