@@ -36,12 +36,8 @@ int main ( int argc, char **argv )
       slice = itk::simple::Cast ( slice, itk::simple::sitkFloat32 );
       }
 
-    // Go through ITK to grab the data
-    typedef itk::Image<float,2> ImageType;
-    ImageType::Pointer itkImage = (ImageType*)slice.GetImageBase();
-
     // Convert ITK to OpenCV image
-    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F,  (void*)itkImage->GetBufferPointer() );
+    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F, (void*)sitkImage.GetBufferAsFloat() );
 
     // Filter using OpenCV
     cv::Mat output;
@@ -59,6 +55,9 @@ int main ( int argc, char **argv )
     // Paste the image back into SimpleITK
     sOutput = itk::simple::Paste ( sOutput, toSimpleITKImage, toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
     }
+  // (Optional) Show the results
+  itk::simple::Show ( sOutput );
+
   itk::simple::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
 }
