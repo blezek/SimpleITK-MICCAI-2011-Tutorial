@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+namespace sitk = itk::simple;
+
 int main ( int argc, char **argv )
 {
   if ( argc < 3 )
@@ -17,7 +19,7 @@ int main ( int argc, char **argv )
   std::string inputFilename ( argv[1] );
   std::string outputFilename ( argv[2] );
 
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   /* Step 1 */
 

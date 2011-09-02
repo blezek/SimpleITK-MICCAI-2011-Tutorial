@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+namespace sitk = itk::simple;
+
 int main ( int argc, char **argv )
 {
   if ( argc < 3 )
@@ -18,17 +20,17 @@ int main ( int argc, char **argv )
   std::string outputFilename ( argv[2] );
 
   // Load the image via SimpleITK
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
   if ( sitkImage.GetDimension() != 3 )
     {
     std::cerr << "Input image is required to be 3 dimensional!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( sitkImage.GetPixelIDValue() != itk::simple::sitkFloat32 )
+  if ( sitkImage.GetPixelIDValue() != sitk::sitkFloat32 )
     {
     std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString() << " converting to float" << std::endl;
-    sitkImage = itk::simple::Cast ( sitkImage, itk::simple::sitkFloat32 );
+    sitkImage = sitk::Cast ( sitkImage, sitk::sitkFloat32 );
     }
 
   // Construct the ITK Pipeline
@@ -53,12 +55,12 @@ int main ( int argc, char **argv )
   pad->Update();
 
   // Create output SimpleITK image
-  itk::simple::Image sOutput ( pad->GetOutput() );
+  sitk::Image sOutput ( pad->GetOutput() );
 
   // Save image via SimpleITK
-  itk::simple::WriteImage ( sOutput, outputFilename );
+  sitk::WriteImage ( sOutput, outputFilename );
 
   // (Optional) Show the results
-  itk::simple::Show ( sOutput, "Mirror Padded Results" );
+  sitk::Show ( sOutput, "Mirror Padded Results" );
   return EXIT_SUCCESS;
 }

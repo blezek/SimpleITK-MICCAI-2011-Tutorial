@@ -371,16 +371,17 @@ Steps:
 Starting code: \texttt{ToITK/ToITK.cxx}\\
 Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
+namespace sitk = itk::simple;
 ...
   // Load the image via SimpleITK
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Construct the ITK Pipeline
   // Link pipeline to SimpleITK
   // Update pipeline
   // Create output SimpleITK image
   // Save image via SimpleITK
-  itk::simple::WriteImage ( sOutput, outputFilename );
+  sitk::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
 \end{lstlisting}
 \end{frame}
@@ -425,7 +426,7 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToITK -- Step 4: Create the SimpleITK output image}
 \begin{lstlisting}
   // Create output SimpleITK image
-  itk::simple::Image sOutput ( pad->GetOutput() );
+  sitk::Image sOutput ( pad->GetOutput() );
 \end{lstlisting}
 \end{frame}
 
@@ -433,7 +434,7 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToITK -- (Optional) Step 5: Show}
 \begin{lstlisting}
   // (Optional) Show the results
-  itk::simple::Show ( sOutput );
+  sitk::Show ( sOutput );
 \end{lstlisting}
 \end{frame}
 
@@ -472,9 +473,9 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
 #include <SimpleITK.h>
 #include <opencv2/opencv.hpp>
-
+namespace sitk = itk::simple;
 ...
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Convert SimpleITK to OpenCV image
   cv::Mat ocvImage;
@@ -492,11 +493,11 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToOpenCV -- Step 1}
 Convert the SimpleITK image to a float
 \begin{lstlisting}
-  if ( sitkImage.GetPixelIDValue() != itk::simple::sitkFloat32 )
+  if ( sitkImage.GetPixelIDValue() != sitk::sitkFloat32 )
     {
     std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString()
               << " converting to float" << std::endl;
-    sitkImage = itk::simple::Cast ( sitkImage, itk::simple::sitkFloat32 );
+    sitkImage = sitk::Cast ( sitkImage, sitk::sitkFloat32 );
     }
 \end{lstlisting}
 \end{frame}
@@ -562,8 +563,9 @@ Steps:
 Starting code: \texttt{ToOpenCVAndBack/ToOpenCVAndBack.cxx}\\
 Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
+namespace sitk = itk::simple;
 ...
-itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
 for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
   {
@@ -574,7 +576,7 @@ for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
   // Convert back to SimpleITK
   // Paste the image back into SimpleITK
   }
-itk::simple::WriteImage ( sOutput, outputFilename );
+sitk::WriteImage ( sOutput, outputFilename );
 \end{lstlisting}
 \end{frame}
 
@@ -587,11 +589,11 @@ size[2] = 1;
 std::vector<int> index ( 3, 0 );
 index[2] = s;
 std::cout << "Extracting: " << s << std::endl;
-itk::simple::Image slice = itk::simple::RegionOfInterest ( sitkImage, size, index );
+sitk::Image slice = sitk::RegionOfInterest ( sitkImage, size, index );
 
-if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
+if ( slice.GetPixelIDValue() != sitk::sitkFloat32 )
   {
-  slice = itk::simple::Cast ( slice, itk::simple::sitkFloat32 );
+  slice = sitk::Cast ( slice, sitk::sitkFloat32 );
   }
 \end{lstlisting}
 \end{frame}
@@ -618,13 +620,13 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \frametitle{To OpenCV and Back - Step 4: Back to SimpleITK}
 \begin{lstlisting}
   // Convert back to SimpleITK
-  itk::simple::ImportImageFilter importer;
+  sitk::ImportImageFilter importer;
   importer.SetSize ( size );
   importer.SetSpacing ( sitkImage.GetSpacing() );
   importer.SetOrigin ( sitkImage.GetOrigin() );
   importer.SetBufferAsFloat ( output.ptr<float>() );
 
-  itk::simple::Image toSimpleITKImage = importer.Execute();
+  sitk::Image toSimpleITKImage = importer.Execute();
 \end{lstlisting}
 \end{frame}
 
@@ -633,7 +635,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \begin{lstlisting}
   // Paste the image back into SimpleITK
   // Paste ( Destination, Source, SourceSize, SourceIndex, DestIndex )
-  sOutput = itk::simple::Paste ( sOutput, toSimpleITKImage,
+  sOutput = sitk::Paste ( sOutput, toSimpleITKImage,
             toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
 \end{lstlisting}
 \end{frame}
@@ -642,7 +644,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \frametitle{To OpenCV and Back -- (Optional) Step 6: Show}
 \begin{lstlisting}
   // (Optional) Show the results
-  itk::simple::Show ( sOutput );
+  sitk::Show ( sOutput );
 \end{lstlisting}
 \end{frame}
 

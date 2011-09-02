@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+namespace sitk = itk::simple;
+
 int main ( int argc, char **argv )
 {
   if ( argc < 3 )
@@ -17,11 +19,11 @@ int main ( int argc, char **argv )
   std::string inputFilename ( argv[1] );
   std::string outputFilename ( argv[2] );
 
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
-  if ( sitkImage.GetPixelIDValue() != itk::simple::sitkFloat32 )
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
+  if ( sitkImage.GetPixelIDValue() != sitk::sitkFloat32 )
     {
     std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString() << " converting to float" << std::endl;
-    sitkImage = itk::simple::Cast ( sitkImage, itk::simple::sitkFloat32 );
+    sitkImage = sitk::Cast ( sitkImage, sitk::sitkFloat32 );
     }
 
   // Convert SimpleITK to OpenCV image
