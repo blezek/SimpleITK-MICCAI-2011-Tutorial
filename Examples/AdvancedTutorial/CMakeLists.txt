@@ -30,5 +30,6 @@ $ENV{HOME}/Source/SimpleITK-build/lib
 )
 
 set(SimpleITK_LIBS SimpleITKBasicFilters SimpleITKCommon SimpleITKIO)
+add_subdirectory ( ToITK )
 add_subdirectory ( ToOpenCV )
 add_subdirectory ( ToOpenCVAndBack )

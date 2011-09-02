@@ -128,16 +128,16 @@ Using Filters
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 
 // Set a parameter
 gaussian.SetSigma ( 2.0 );
 
 // "Execute" the Filter
-Image blurredImage = gaussian.Execute ( image );
+sitk::Image blurredImage = gaussian.Execute ( image );
 \end{lstlisting}
 \end{frame}
 
@@ -147,15 +147,15 @@ Flexibility
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 
 // Set parameter(s), then execute
-Image blurredImage = gaussian
-                       .SetSigma ( 2.0 )
-                       .Execute ( image );
+sitk::Image blurredImage = gaussian
+                             .SetSigma ( 2.0 )
+                             .Execute ( image );
 \end{lstlisting}
 \end{frame}
 
@@ -164,12 +164,12 @@ Image blurredImage = gaussian
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
-blurredImage = SmoothingRecursiveGaussianImageFilter()
-                   .SetSigma ( 2.0 )
-                   .SetRadius ( 5 )
-                   .Execute ( image );
+blurredImage = sitk::SmoothingRecursiveGaussianImageFilter()
+                         .SetSigma ( 2.0 )
+                         .SetRadius ( 5 )
+                         .Execute ( image );
 \end{lstlisting}
 One line: create anonymous filter, set parameters, and execute
 \end{frame}
@@ -179,21 +179,21 @@ One line: create anonymous filter, set parameters, and execute
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Call the function version
 // NB: Drop the "ImageFilter"!
 // Signature:
 /*
-    Image SmoothingRecursiveGaussian (
-      const Image&,
-      double inSigma = 1.0,
-      bool inNormalizeAcrossScale = false );
+    sitk::Image SmoothingRecursiveGaussian (
+            const Image&,
+            double inSigma = 1.0,
+            bool inNormalizeAcrossScale = false );
 */
-Image blurredImage = SmoothingRecursiveGaussian (
-                        image,
-                        2.0,
-                        false );
+sitk::Image blurredImage = sitk::SmoothingRecursiveGaussian (
+                              image,
+                              2.0,
+                              false );
 \end{lstlisting}
 \end{frame}
 
@@ -202,20 +202,20 @@ Image blurredImage = SmoothingRecursiveGaussian (
 \lstcpp
 \begin{lstlisting}
 #include <SimpleITK.h>
-using itk::simple;
+namespace sitk = itk::simple;
 ...
 // Get our gaussian ready
-SmoothingRecursiveGaussianImageFilter gaussian;
+sitk::SmoothingRecursiveGaussianImageFilter gaussian;
 gaussian.SetSigma ( 2.0 );
 
 // What is the effect on the image
-Image difference = Subtract (
+sitk::Image difference = sitk::Subtract (
+                           image,
+                           gaussian.Execute ( image )
+                           );
+sitk::Image difference2 = sitk::Subtract (
                      image,
-                     gaussian.Execute ( image )
-                     );
-Image difference2 = Subtract (
-                     image,
-                     SmoothingRecursiveGaussian (
+                     sitk::SmoothingRecursiveGaussian (
                        image, 2.0
                        )
                      );
@@ -371,16 +371,17 @@ Steps:
 Starting code: \texttt{ToITK/ToITK.cxx}\\
 Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
+namespace sitk = itk::simple;
 ...
   // Load the image via SimpleITK
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Construct the ITK Pipeline
   // Link pipeline to SimpleITK
   // Update pipeline
   // Create output SimpleITK image
   // Save image via SimpleITK
-  itk::simple::WriteImage ( sOutput, outputFilename );
+  sitk::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
 \end{lstlisting}
 \end{frame}
@@ -425,7 +426,7 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToITK -- Step 4: Create the SimpleITK output image}
 \begin{lstlisting}
   // Create output SimpleITK image
-  itk::simple::Image sOutput ( pad->GetOutput() );
+  sitk::Image sOutput ( pad->GetOutput() );
 \end{lstlisting}
 \end{frame}
 
@@ -433,7 +434,7 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToITK -- (Optional) Step 5: Show}
 \begin{lstlisting}
   // (Optional) Show the results
-  itk::simple::Show ( sOutput );
+  sitk::Show ( sOutput );
 \end{lstlisting}
 \end{frame}
 
@@ -472,9 +473,9 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
 #include <SimpleITK.h>
 #include <opencv2/opencv.hpp>
-
+namespace sitk = itk::simple;
 ...
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Convert SimpleITK to OpenCV image
   cv::Mat ocvImage;
@@ -492,11 +493,11 @@ Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \frametitle{ToOpenCV -- Step 1}
 Convert the SimpleITK image to a float
 \begin{lstlisting}
-  if ( sitkImage.GetPixelIDValue() != itk::simple::sitkFloat32 )
+  if ( sitkImage.GetPixelIDValue() != sitk::sitkFloat32 )
     {
     std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString()
               << " converting to float" << std::endl;
-    sitkImage = itk::simple::Cast ( sitkImage, itk::simple::sitkFloat32 );
+    sitkImage = sitk::Cast ( sitkImage, sitk::sitkFloat32 );
     }
 \end{lstlisting}
 \end{frame}
@@ -562,8 +563,9 @@ Steps:
 Starting code: \texttt{ToOpenCVAndBack/ToOpenCVAndBack.cxx}\\
 Directory: \texttt{SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial}
 \begin{lstlisting}
+namespace sitk = itk::simple;
 ...
-itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
 for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
   {
@@ -574,7 +576,7 @@ for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
   // Convert back to SimpleITK
   // Paste the image back into SimpleITK
   }
-itk::simple::WriteImage ( sOutput, outputFilename );
+sitk::WriteImage ( sOutput, outputFilename );
 \end{lstlisting}
 \end{frame}
 
@@ -587,11 +589,11 @@ size[2] = 1;
 std::vector<int> index ( 3, 0 );
 index[2] = s;
 std::cout << "Extracting: " << s << std::endl;
-itk::simple::Image slice = itk::simple::RegionOfInterest ( sitkImage, size, index );
+sitk::Image slice = sitk::RegionOfInterest ( sitkImage, size, index );
 
-if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
+if ( slice.GetPixelIDValue() != sitk::sitkFloat32 )
   {
-  slice = itk::simple::Cast ( slice, itk::simple::sitkFloat32 );
+  slice = sitk::Cast ( slice, sitk::sitkFloat32 );
   }
 \end{lstlisting}
 \end{frame}
@@ -618,13 +620,13 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \frametitle{To OpenCV and Back - Step 4: Back to SimpleITK}
 \begin{lstlisting}
   // Convert back to SimpleITK
-  itk::simple::ImportImageFilter importer;
+  sitk::ImportImageFilter importer;
   importer.SetSize ( size );
   importer.SetSpacing ( sitkImage.GetSpacing() );
   importer.SetOrigin ( sitkImage.GetOrigin() );
   importer.SetBufferAsFloat ( output.ptr<float>() );
 
-  itk::simple::Image toSimpleITKImage = importer.Execute();
+  sitk::Image toSimpleITKImage = importer.Execute();
 \end{lstlisting}
 \end{frame}
 
@@ -633,7 +635,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \begin{lstlisting}
   // Paste the image back into SimpleITK
   // Paste ( Destination, Source, SourceSize, SourceIndex, DestIndex )
-  sOutput = itk::simple::Paste ( sOutput, toSimpleITKImage,
+  sOutput = sitk::Paste ( sOutput, toSimpleITKImage,
             toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
 \end{lstlisting}
 \end{frame}
@@ -642,7 +644,7 @@ if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
 \frametitle{To OpenCV and Back -- (Optional) Step 6: Show}
 \begin{lstlisting}
   // (Optional) Show the results
-  itk::simple::Show ( sOutput );
+  sitk::Show ( sOutput );
 \end{lstlisting}
 \end{frame}
 

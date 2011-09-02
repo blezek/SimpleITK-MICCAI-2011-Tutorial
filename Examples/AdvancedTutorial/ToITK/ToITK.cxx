@@ -1,7 +1,6 @@
 
 
 #include <SimpleITK.h>
-#include <opencv2/opencv.hpp>
 
 #include <iostream>
 #include <string>
@@ -19,31 +18,27 @@ int main ( int argc, char **argv )
   std::string inputFilename ( argv[1] );
   std::string outputFilename ( argv[2] );
 
+  // Load the image via SimpleITK
   sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
+  if ( sitkImage.GetDimension() != 3 )
+    {
+    std::cerr << "Input image is required to be 3 dimensional!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   if ( sitkImage.GetPixelIDValue() != sitk::sitkFloat32 )
     {
     std::cout << "Input image is " << sitkImage.GetPixelIDTypeAsString() << " converting to float" << std::endl;
     sitkImage = sitk::Cast ( sitkImage, sitk::sitkFloat32 );
     }
 
-  // Convert SimpleITK to OpenCV image
-  cv::Mat ocvImage ( sitkImage.GetHeight(), sitkImage.GetWidth(), CV_32F, (void*)sitkImage.GetBufferAsFloat() );
+  // Construct the ITK Pipeline
+  // Link pipeline to SimpleITK
+  // Update pipeline
+  // Create output SimpleITK image
+  sitk::Image sOutput = sitkImage;
 
-  // Filter and write using OpenCV
-  cv::Mat output;
-  cv::medianBlur ( ocvImage, output, 5 );
-
-  // NB: the imshow function requires 8-bit data, so convert
-  cv::Mat temp;
-  ocvImage.convertTo ( temp, CV_8U );
-  cv::imshow ( "original slice", temp );
-  output.convertTo ( temp, CV_8U );
-  cv::imshow ( "bilateral filtering", temp );
-
-  std::cout << "Press any key to continue" << std::endl;
-  cv::waitKey();
-
-  cv::imwrite ( outputFilename, output );
-
+  // Save image via SimpleITK
+  sitk::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
 }

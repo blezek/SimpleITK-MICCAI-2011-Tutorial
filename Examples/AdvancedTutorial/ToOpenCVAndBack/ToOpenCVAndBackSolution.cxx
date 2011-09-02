@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+namespace sitk = itk::simple;
+
 int main ( int argc, char **argv )
 {
   if ( argc < 3 )
@@ -16,10 +18,10 @@ int main ( int argc, char **argv )
   std::string inputFilename ( argv[1] );
   std::string outputFilename ( argv[2] );
 
-  itk::simple::Image sitkImage = itk::simple::ReadImage ( inputFilename );
+  sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Quick way to make a copy of the image
-  itk::simple::Image sOutput = 0.0 * sitkImage;
+  sitk::Image sOutput = 0.0 * sitkImage;
 
   for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
     {
@@ -29,36 +31,35 @@ int main ( int argc, char **argv )
     std::vector<int> index ( 3, 0 );
     index[2] = s;
     std::cout << "Extracting: " << s << std::endl;
-    itk::simple::Image slice = itk::simple::RegionOfInterest ( sitkImage, size, index );
+    sitk::Image slice = sitk::RegionOfInterest ( sitkImage, size, index );
 
-    if ( slice.GetPixelIDValue() != itk::simple::sitkFloat32 )
+    if ( slice.GetPixelIDValue() != sitk::sitkFloat32 )
       {
-      slice = itk::simple::Cast ( slice, itk::simple::sitkFloat32 );
+      slice = sitk::Cast ( slice, sitk::sitkFloat32 );
       }
 
-    // Go through ITK to grab the data
-    typedef itk::Image<float,2> ImageType;
-    ImageType::Pointer itkImage = (ImageType*)slice.GetImageBase();
-
     // Convert ITK to OpenCV image
-    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F,  (void*)itkImage->GetBufferPointer() );
+    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F, (void*)sitkImage.GetBufferAsFloat() );
 
     // Filter using OpenCV
     cv::Mat output;
     cv::Sobel ( ocvImage, output, -1, 1, 1 );
 
     // Convert back to SimpleITK
-    itk::simple::ImportImageFilter importer;
+    sitk::ImportImageFilter importer;
     importer.SetSize ( size );
     importer.SetSpacing ( sitkImage.GetSpacing() );
     importer.SetOrigin ( sitkImage.GetOrigin() );
     importer.SetBufferAsFloat ( output.ptr<float>() );
 
-    itk::simple::Image toSimpleITKImage = importer.Execute();
+    sitk::Image toSimpleITKImage = importer.Execute();
 
     // Paste the image back into SimpleITK
-    sOutput = itk::simple::Paste ( sOutput, toSimpleITKImage, toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
+    sOutput = sitk::Paste ( sOutput, toSimpleITKImage, toSimpleITKImage.GetSize(), std::vector<int> ( 3,0 ), index );
     }
-  itk::simple::WriteImage ( sOutput, outputFilename );
+  // (Optional) Show the results
+  sitk::Show ( sOutput );
+
+  sitk::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
 }
