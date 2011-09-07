@@ -48,7 +48,7 @@ int main ( int argc, char **argv )
   pad->SetPadLowerBound ( lowerBound );
 
   // Link pipeline to SimpleITK
-  ImageType::Pointer inputImage = (ImageType*) sitkImage.GetImageBase();
+  ImageType::Pointer inputImage = (ImageType*) sitkImage.GetITKBase();
   pad->SetInput ( inputImage );
 
   // Update pipeline
