@@ -28,3 +28,9 @@ sys.path.append("/home/tutorial/Source/SimpleITK-build/lib")
 sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
 EOF
 
+
+
+# ImageJ plugin for nii files
+# mkdir -p $HOME/.imagej/plugins
+# wget -o $HOME/.imagej/plugins/nifti_io.jar http://rsbweb.nih.gov/ij/plugins/download/jars/nifti_io.jar
+

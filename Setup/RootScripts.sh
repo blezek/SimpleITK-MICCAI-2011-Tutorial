@@ -10,7 +10,7 @@ sudo apt-get update; sudo apt-get install -y sun-java6-jdk
 
 # Fiji
 sudo add-apt-repository "deb http://fiji.sc/downloads/apt/ ./"
-sudo apt-get update; sudo apt-get install -y fiji && sudo ln -s /usr/bin/fiji /usr/bin/ImageJ
+sudo apt-get update; sudo apt-get install -y --force-yes fiji && sudo ln -s /usr/bin/fiji /usr/bin/ImageJ
 
 # Nifti plugin
 wget http://rsbweb.nih.gov/ij/plugins/download/jars/nifti_io.jar
