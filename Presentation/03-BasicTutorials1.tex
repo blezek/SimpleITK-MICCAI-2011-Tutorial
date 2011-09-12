@@ -68,7 +68,7 @@ See /home/tutorial/.ipython/ipython.py
   \item Number of dimensions, size, origin, spacing
   \item Pixel access
 \end{itemize}
-Back to iPython
+Back to iPython (\texttt{Examples/BasicTutorial1/Image.py})
 \end{frame}
 
 % Must use the [fragile] option!
@@ -77,20 +77,20 @@ Back to iPython
 \lstpython
 \begin{lstlisting}
 # Create an image
-image = SimpleITK.Image ( 256, 256, 256,
-                          SimpleITK.sitkInt16 );
+image = sitk.Image ( 256, 256, 256,
+                          sitk.sitkInt16 );
 # How about 2d?
-twoD = SimpleITK.Image ( 64, 64,
-                         SimpleITK.sitkFloat32 )
+twoD = sitk.Image ( 64, 64,
+                         sitk.sitkFloat32 )
 \end{lstlisting}
 
 \begin{itemize}
-  \item SimpleITK is the module
+  \item sitk is the module
   \item Image is the constructor for the Image class
   \item Height, width, depth (omit depth for 2D images)
   \item Datatype (more on this later)
 \end{itemize}
-Back to iPython
+Back to iPython (\texttt{Examples/BasicTutorial1/Image.py})
 \end{frame}
 
 
@@ -108,7 +108,7 @@ image.GetPixel ( 0, 0, 0 )
   \item Hmm, I don't like it, so set to 1
   \item What is the value at [0,0,0] now?
 \end{itemize}
-Back to iPython
+Back to iPython (\texttt{Examples/BasicTutorial1/Image.py})
 \end{frame}
 
 \begin{frame}[fragile]
@@ -157,6 +157,7 @@ Images...
   \item are copy-on-write
   \item use internal smart-pointers
 \end{itemize}
+Back to iPython (\texttt{Examples/BasicTutorial1/MemoryManagement.py})
 \end{frame}
 
 \begin{frame}[fragile]
@@ -242,7 +243,7 @@ Input/Output
 \end{frame}
 
 \begin{frame}{Read/Write/Display Images}
-  Back to iPython
+Back to iPython (\texttt{Examples/BasicTutorial1/InputOutput.py})
 \end{frame}
 
 \begin{frame}[fragile]
@@ -255,7 +256,7 @@ What just happened?
 \lstpython
 \begin{lstlisting}
 # What's the image look like?
-SimpleITK.Show ( image )
+sitk.Show ( image )
 \end{lstlisting}
 \end{frame}
 
@@ -283,11 +284,11 @@ Mac
 \end{frame}
 
 %% Break
-\begin{frame}{Break}
+\begin{frame}{Questions/Break}
 \fontsize{36pt}{36pt}\selectfont
 \center
 \begin{center}
-Break
+Questions/Break
 \end{center}
 \end{frame}
 

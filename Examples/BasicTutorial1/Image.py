@@ -12,6 +12,7 @@ import SimpleITK as sitk
 image = SimpleITK.Image ( 256, 128, 64, SimpleITK.sitkInt16 );
 # How about 2d?
 twoD = SimpleITK.Image ( 64, 64, SimpleITK.sitkFloat32 )
+print "Back to slides"
 
 # <demo> --- stop ---
 
@@ -53,6 +54,7 @@ image.GetPixelIDTypeAsString()
 image.GetPixel ( 0, 0, 0 )
 image.SetPixel ( 0, 0, 0, 1 )
 image.GetPixel ( 0, 0, 0 )
+print "Back to presentation"
 
 # <demo> --- stop ---
 
@@ -60,5 +62,6 @@ image.GetPixel ( 0, 0, 0 )
 image[0,0,0]
 image[0,0,0] = 10
 image[0,0,0]
+print "Back to presentation"
 
 # <demo> --- stop ---

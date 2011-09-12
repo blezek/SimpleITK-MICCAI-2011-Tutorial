@@ -14,10 +14,15 @@ print image
 
 # <demo> --- stop ---
 
-# Reference the image
-image2 = image
+# Clone image
+b = SimpleITK.Image ( image )
 print image
+print b
 
 # <demo> --- stop ---
 
-# Clone the image
+print b
+b[0,0,0] = 1
+print b
+print image
+

@@ -15,12 +15,12 @@ cmake ../SimpleITK/SuperBuild
 # emacs SimpleITK-build/ITK-build/CMakeCache.txt
 # emacs SimpleITK-build/SimpleITK-build/CMakeCache.txt
 
-make -j $np
+make -j $np -k
 
 mkdir -p Source/AdvancedTutorial-build
 cd Source/AdvancedTutorial-build
 cmake ~/SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial
-make -j $np
+make -j $np -k
 
 cd ~
 ipython profile create
