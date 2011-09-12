@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+sudo apt-get update -y
 # Package management
 sudo apt-get install -y libncurses5-dev ipython
 sudo apt-get install -y python-dev emacs vim tcl-dev tk-dev ruby-dev
