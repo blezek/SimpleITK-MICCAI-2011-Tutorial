@@ -8,10 +8,10 @@ cd SimpleITK && git checkout next
 cd ~/Source
 mkdir SimpleITK-build && cd SimpleITK-build
 
-# Need to figure out how to make Release builds of everything from CLI
+# By Default the SimpleITK SuperBuild will build release versons of the libraries
 cmake ../SimpleITK/SuperBuild
 
-# Edit CMake cache files
+# Defaults should be OK
 # emacs SimpleITK-build/ITK-build/CMakeCache.txt
 # emacs SimpleITK-build/SimpleITK-build/CMakeCache.txt
 
