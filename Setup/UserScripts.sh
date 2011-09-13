@@ -23,7 +23,6 @@ cmake ~/SimpleITK-MICCAI-2011-Tutorial/Examples/AdvancedTutorial
 make -j $np -k
 
 cd ~
-ipython profile create
 mkdir -p .config/ipython/profile_default/
 cat >> .config/ipython/profile_default/ipython_config.py <<EOF
 import sys
@@ -32,6 +31,7 @@ sys.path.append("/home/tutorial/Source/SimpleITK-build/lib")
 sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
 EOF
 
+mkdir -p .ipython
 cat >> .ipython/ipy_user_conf.py <<EOF
 import sys
 print ( "Configure SimpleITK" )
@@ -41,6 +41,7 @@ EOF
 
 
 cd ~/Desktop
+ln -s $HOME/SimpleITK-MICCAI-2011-Tutorial/Presentation/SimpleITK-MICCAI-2011.pdf SimpleITK-MICCAI-2011.pdf
 ln -s $HOME/SimpleITK-MICCAI-2011-Tutorial/Examples Examples
 cat > gnome-terminal.desktop <<EOF
 #!/usr/bin/env xdg-open
@@ -61,7 +62,7 @@ StartupNotify=true
 OnlyShowIn=GNOME;
 X-Ubuntu-Gettext-Domain=gnome-terminal
 EOF
-xdg-desktop-icon install gnome-desktop.desktop
+xdg-desktop-icon install gnome-terminal.desktop
 
 cat > ipython.desktop <<EOF
 #!/usr/bin/env xdg-open
