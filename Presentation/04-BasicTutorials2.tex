@@ -68,7 +68,7 @@ blurredImage = gaussian.Execute ( image );
 \frametitle{Object Paradigm (Java)}
 \lstjava
 \begin{lstlisting}
-import SimpleITK.*;
+import org.itk.simple.*;
 ...
 
 // Create a smoothing filter
@@ -119,6 +119,11 @@ Image blurredImage = gaussian.Execute ( image );
 \begin{center}
 Hands On
 \end{center}
+\vspace{20pt}
+\begin{center}
+\fontsize{11pt}{11pt}\selectfont
+\texttt{Examples/BasicTutorial2/Filters.py}
+\end{center}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -126,8 +131,8 @@ Hands On
 \lstpython
 \begin{lstlisting}
 # Simple smoothing
-smooth = SimpleITK.SmoothingRecursiveGaussian ( image, 2.0 )
-SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+smooth = sitk.SmoothingRecursiveGaussian ( image, 2.0 )
+sitk.Show ( sitk.Subtract ( image, smooth ) )
 ...
 RuntimeError: Exception thrown in SimpleITK Subtract: ...
 sitk::ERROR: Both images for SubtractImageFilter don't match type or dimension!
@@ -148,11 +153,12 @@ sitk::ERROR: Both images for SubtractImageFilter don't match type or dimension!
 \lstpython
 \begin{lstlisting}
 # Much better
-smooth = SimpleITK.Cast ( smooth, image.GetPixelIDValue() )
-print image.GetPixelIDTypeAsString()
-print smooth.GetPixelIDTypeAsString()
-SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
+print "Before: ", smooth.GetPixelIDTypeAsString()
+smooth = sitk.Cast ( smooth, image.GetPixelIDValue() )
+print "After: ", smooth.GetPixelIDTypeAsString()
+sitk.Show ( sitk.Subtract ( image, smooth ), "DiffWithGaussian" )
 \end{lstlisting}
+Back to iPython (\texttt{Examples/BasicTutorial2/Filters.py})
 \end{frame}
 
 %% Morphology
@@ -163,6 +169,11 @@ SimpleITK.Show ( SimpleITK.Subtract ( image, smooth ) )
 \center
 \begin{center}
 Morphology
+\end{center}
+\vspace{20pt}
+\begin{center}
+\fontsize{11pt}{11pt}\selectfont
+\texttt{Examples/BasicTutorial2/Morphology.py}
 \end{center}
 \end{frame}
 
@@ -202,7 +213,7 @@ Images from \url{http://en.wikipedia.org/wiki/Mathematical_morphology}
 \begin{frame}{Morphology in Action}
 \center
 \begin{center}
-Back to iPython
+Back to iPython (\texttt{Examples/BasicTutorial2/Morphology.py})
 \end{center}
 \end{frame}
 

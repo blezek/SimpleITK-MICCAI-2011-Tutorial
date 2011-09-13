@@ -660,6 +660,44 @@ ToOpenCVAndBack/ToOpenCVAndBack \textbackslash \\
 \end{frame}
 
 
+\subsection{Java -- Groovy}
+
+\begin{frame}{Java/Groovy}
+\fontsize{36pt}{36pt}\selectfont
+\center
+\begin{center}
+Using SimpleITK from Java/Groovy
+\end{center}
+\vspace{20pt}
+\begin{center}
+\fontsize{11pt}{11pt}\selectfont
+\texttt{Examples/AdvancedTutorial/Java/Example.groovy}
+\end{center}
+\end{frame}
+
+\begin{frame}{Groovy}
+\begin{itemize}
+  \item Language build on Java
+  \item Superset of Java
+  \item Can be used interactively
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Groovy}
+\lstjava
+\begin{lstlisting}
+import org.itk.simple.*;
+
+Image i;
+i = new Image ( 64, 64, 64, PixelIDValueEnum.sitkInt16 );
+SimpleITK.show ( i, "Blank" );
+\end{lstlisting}
+\fontsize{8pt}{8pt}\selectfont
+\texttt{groovysh -classpath
+ ./SimpleITK-Build/SimpleITK-Build/Wrapping/org.itk.simple.jar}
+\end{frame}
+
 % Too advanced?
 %% \begin{frame}
 %% \frametitle{Extending SimpleITK}

@@ -24,8 +24,17 @@ make -j $np -k
 
 cd ~
 ipython profile create
+mkdir -p .config/ipython/profile_default/
 cat >> .config/ipython/profile_default/ipython_config.py <<EOF
 import sys
+print ( "Configure SimpleITK" )
+sys.path.append("/home/tutorial/Source/SimpleITK-build/lib")
+sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
+EOF
+
+cat >> .ipython/ipy_user_conf.py <<EOF
+import sys
+print ( "Configure SimpleITK" )
 sys.path.append("/home/tutorial/Source/SimpleITK-build/lib")
 sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping")
 EOF
@@ -52,6 +61,8 @@ StartupNotify=true
 OnlyShowIn=GNOME;
 X-Ubuntu-Gettext-Domain=gnome-terminal
 EOF
+xdg-desktop-icon install gnome-desktop.desktop
+
 cat > ipython.desktop <<EOF
 #!/usr/bin/env xdg-open
 [Desktop Entry]
@@ -67,8 +78,7 @@ StartupNotify=false
 Terminal=true
 Type=Application
 EOF
-
-
+xdg-desktop-icon install --novendor ipython.desktop
 
 # ImageJ plugin for nii files
 # mkdir -p $HOME/.imagej/plugins

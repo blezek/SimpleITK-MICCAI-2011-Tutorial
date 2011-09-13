@@ -9,6 +9,7 @@ sudo apt-get install -y make gcc git g++
 # install Java, accept the license
 sudo add-apt-repository "deb http://archive.canonical.com/ubuntu maverick partner"
 sudo apt-get update; sudo apt-get install -y sun-java6-jdk
+sudo apt-get install -y groovy
 
 # Fiji
 sudo add-apt-repository "deb http://fiji.sc/downloads/apt/ ./"
