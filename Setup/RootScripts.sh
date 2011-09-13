@@ -29,8 +29,7 @@ sudo apt-get update
 sudo apt-get install -y opencv
 sudo apt-get install -y libopencv-dev
 
-sudo apt-get remove -y cmake
-# CMake, must be installed to replace tho cmake that OpenCV installs
+# CMake, must be installed to replace the cmake that OpenCV installs (v2.8.3)
 cd /tmp/ && wget http://www.cmake.org/files/v2.8/cmake-2.8.5.tar.gz && tar fxvz cmake-2.8.5.tar.gz
 cd cmake-2.8.5/ && sudo ./configure --prefix=/usr && sudo make -j 4 install
 
