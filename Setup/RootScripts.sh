@@ -12,12 +12,15 @@ sudo apt-get update; sudo apt-get install -y sun-java6-jdk
 sudo apt-get install -y groovy
 
 # Fiji
-sudo add-apt-repository "deb http://fiji.sc/downloads/apt/ ./"
-sudo apt-get update; sudo apt-get install -y --force-yes fiji && sudo ln -s /usr/bin/fiji /usr/bin/ImageJ
+# sudo add-apt-repository "deb http://fiji.sc/downloads/apt/ ./"
+# sudo apt-get update; sudo apt-get install -y --force-yes fiji && sudo ln -s /usr/bin/fiji /usr/bin/ImageJ
 
 # Nifti plugin
-wget http://rsbweb.nih.gov/ij/plugins/download/jars/nifti_io.jar
-sudo cp nifti_io.jar /usr/lib/fiji/plugins
+# wget http://rsbweb.nih.gov/ij/plugins/download/jars/nifti_io.jar
+# sudo cp nifti_io.jar /usr/lib/fiji/plugins
+
+# Use ImageJ
+sudo apt-get install imagej
 
 # iPython
 sudo apt-add-repository ppa:jtaylor/ipython-dev
