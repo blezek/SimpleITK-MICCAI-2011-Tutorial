@@ -17,7 +17,7 @@ include_directories(
 $ENV{HOME}/Source/SimpleITK/Code/Common/include
 $ENV{HOME}/Source/SimpleITK/Code/IO/include
 $ENV{HOME}/Source/SimpleITK/Code/BasicFilters/include
-$ENV{HOME}/Source/SimpleITK/Code/Registration
+$ENV{HOME}/Source/SimpleITK/Code/Registration/include
 
 $ENV{HOME}/Source/SimpleITK-build/SimpleITK-build/Code/Common/include
 $ENV{HOME}/Source/SimpleITK-build/SimpleITK-build/Code/IO/include
