@@ -21,25 +21,27 @@ int main ( int argc, char **argv )
   sitk::Image sitkImage = sitk::ReadImage ( inputFilename );
 
   // Quick way to make a copy of the image
-  sitk::Image sOutput = 0.0 * sitkImage;
+  sitk::Image sOutput = 0.0 * sitk::Cast ( sitkImage, sitk::sitkFloat32 );
 
+  std::cout << "Processing: " << std::flush;
   for ( unsigned int s = 0; s < sitkImage.GetDepth(); s++ )
     {
+    std::cout << s << ".." << std::flush;
     // Extract a slice
     std::vector<unsigned int> size = sitkImage.GetSize();
     size[2] = 1;
     std::vector<int> index ( 3, 0 );
     index[2] = s;
-    std::cout << "Extracting: " << s << std::endl;
     sitk::Image slice = sitk::RegionOfInterest ( sitkImage, size, index );
 
     if ( slice.GetPixelIDValue() != sitk::sitkFloat32 )
       {
+      std::cout << "Converting to float" << std::endl;
       slice = sitk::Cast ( slice, sitk::sitkFloat32 );
       }
 
     // Convert ITK to OpenCV image
-    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F, (void*)sitkImage.GetBufferAsFloat() );
+    cv::Mat ocvImage ( slice.GetHeight(), slice.GetWidth(), CV_32F, (void*)slice.GetBufferAsFloat() );
 
     // Filter using OpenCV
     cv::Mat output;
@@ -59,6 +61,7 @@ int main ( int argc, char **argv )
     }
   // (Optional) Show the results
   sitk::Show ( sOutput );
+  std::cout << "Done" << std::endl;
 
   sitk::WriteImage ( sOutput, outputFilename );
   return EXIT_SUCCESS;
