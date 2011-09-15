@@ -12,98 +12,6 @@ Basic Tutorial 2
 \end{center}
 \end{frame}
 
-\begin{frame}{Wrapped Languages}
-\fontsize{36pt}{36pt}\selectfont
-\center
-\begin{center}
-Wrapped Languages
-\end{center}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Wrapping Process}
-\begin{center}
-  \includegraphics[width=.8\textwidth]{Images/WrappingProcess_shadow}
-\end{center}
-\begin{itemize}
-  \item SimpleITK headers are constructed for wrapping
-  \item SWIG is an open source package
-  \begin{itemize}
-    \item Parses C/C++ code, produces ``glue'' code
-    \item Well supported, covers 10+ languages
-  \end{itemize}
-  \item Main languages: Python, Java, C\#
-  \item Also supported: Tcl, Lua, R
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Object Paradigm (Python)}
-The paradigms translate to the wrapped languages (C++ $\rightarrow$ Python)
-\lstcpp
-\begin{lstlisting}
-#include <SimpleITK.h>
-using itk::simple;
-...
-// Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian;
-// Set a parameter
-gaussian.SetSigma ( 2.0 );
-// "Execute" the Filter
-Image blurredImage = gaussian.Execute ( image );
-\end{lstlisting}
-\lstpython
-\begin{lstlisting}
-from SimpleITK import *
-# Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian
-# Set a parameter
-gaussian.SetSigma ( 2.0 );
-# "Execute" the Filter
-blurredImage = gaussian.Execute ( image );
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Object Paradigm (Java)}
-\lstjava
-\begin{lstlisting}
-import org.itk.simple.*;
-...
-
-// Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian =
-      new SmoothingRecursiveGaussianImageFilter();
-
-// Set a parameter
-gaussian.SetSigma ( 2.0 );
-
-// "Execute" the Filter
-Image blurredImage = gaussian.Execute ( image );
-\end{lstlisting}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Object Paradigm (C\#)}
-\lstjava
-\begin{lstlisting}
-using System;
-using itk.simple;
-...
-// Create a smoothing filter
-SmoothingRecursiveGaussianImageFilter gaussian =
-      new SmoothingRecursiveGaussianImageFilter();
-
-// Set a parameter
-gaussian.SetSigma ( 2.0 );
-
-// "Execute" the Filter
-Image blurredImage = gaussian.Execute ( image );
-\end{lstlisting}
-\end{frame}
-
-
 \begin{frame}{Note on the Tutorial}
 \begin{itemize}
   \item Most examples will be Python
@@ -161,6 +69,34 @@ sitk.Show ( sitk.Subtract ( image, smooth ), "DiffWithGaussian" )
 Back to iPython (\texttt{Examples/BasicTutorial2/Filters.py})
 \end{frame}
 
+
+\begin{frame}[fragile]
+\frametitle{Sizes and Indices}
+\lstpython
+\begin{lstlisting}
+# Extract
+size = [64, 64, 1]
+start = [64, 0, 0]
+sitk.Show ( sitk.Extract ( image, size, start ), "Extracted" )
+\end{lstlisting}
+in C++ / ITK code this would use
+\lstcpp
+\begin{lstlisting}
+typedef unsigned char PixelType;
+enum {ImageDimension = 2};
+typedef itk::Image<PixelType,ImageDimension> ImageType;
+
+typedef ImageType::IndexType  IndexType;
+typedef ImageType::SizeType   SizeType;
+typedef ImageType::RegionType RegionType;
+\end{lstlisting}
+\begin{itemize}
+\item SimpleITK uses STL vectors
+\item Wrapping converts to language-specific constructs (tuples/arrays)
+\end{itemize}
+\end{frame}
+
+
 %% Morphology
 \subsection{Morphology}
 
@@ -217,17 +153,61 @@ Back to iPython (\texttt{Examples/BasicTutorial2/Morphology.py})
 \end{center}
 \end{frame}
 
-
-\subsection{Label Maps}
-
-%% Label maps
-\begin{frame}{Label Maps}
-\fontsize{36pt}{36pt}\selectfont
-\center
-\begin{center}
-Label Maps
-\end{center}
+\begin{frame}[fragile]
+\lstpython
+\begin{lstlisting}
+# Use pixel-wise operators
+sitk.Show ( 127 * image + 127 * sitk.BinaryErode ( image ), "ThinErosion" )
+\end{lstlisting}
+\frametitle{Pixel-wise Operators}
+\begin{threeparttable}
+  \caption{SimpleITK Pixel-wise Operators}
+  \begin{tabular}{c||l|l}
+    Operator & Equivalant & Usage\tnote{$^\dagger$} \\
+    \hline
+    $+$        & Add, AddConstantTo & $A + B$, $s+A$, $s+B$ \\
+    $-$        & Subtract, SubtractConstantFrom & $A - B$, $s-A$, $s-B$ \\
+    $*$        & Multiply, MultiplyByConstant & $A * B$, $s*A$, $s*B$ \\
+    $/$        & Divide, DivideByConstant & $A / B$, $s/A$, $B/s$ \\
+    $\&$        & And ``and'' & $A \& B$ \\
+    $|$        & Or ``or'' & $A | B$ \\
+    $\sim$        & Not ``not'' & $~A$
+  \end{tabular}
+  \begin{tablenotes}
+    \item[$^\dagger$] $A$ and $B$ are images (2D or 3D), $s$ is a scalar
+  \end{tablenotes}
+\end{threeparttable}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Operator Example}
+\lstpython
+\begin{lstlisting}
+sitk.Hash ( image + 2 )
+sitk.Hash ( sitk.AddConstantTo ( image, 2 ) )
+
+sitk.Hash ( image * 2 )
+sitk.Hash ( sitk.MultiplyByConstant ( image, 2 ) )
+\end{lstlisting}
+
+\begin{itemize}
+  \item Hash calculates the MD5 or SHA1 hash of the \textit{image} data
+  \item Used to tell if two images are exactly identical
+\end{itemize}
+Back to iPython (\texttt{Examples/BasicTutorial2/Morphology.py})
+\end{frame}
+
+
+%% \subsection{Label Maps}
+
+%% %% Label maps
+%% \begin{frame}{Label Maps}
+%% \fontsize{36pt}{36pt}\selectfont
+%% \center
+%% \begin{center}
+%% Label Maps
+%% \end{center}
+%% \end{frame}
 
 %% Break
 \begin{frame}{Break}

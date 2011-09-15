@@ -9,9 +9,9 @@ import SimpleITK as sitk
 # <demo> --- stop ---
 
 # Create an image, details in the presentation
-image = SimpleITK.Image ( 256, 128, 64, SimpleITK.sitkInt16 );
+image = sitk.Image ( 256, 128, 64, sitk.sitkInt16 );
 # How about 2d?
-twoD = SimpleITK.Image ( 64, 64, SimpleITK.sitkFloat32 )
+twoD = sitk.Image ( 64, 64, sitk.sitkFloat32 )
 print "Back to slides"
 
 # <demo> --- stop ---

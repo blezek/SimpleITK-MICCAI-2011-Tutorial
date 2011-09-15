@@ -1,5 +1,3 @@
-
-
 #include <SimpleITK.h>
 #include <itkMirrorPadImageFilter.h>
 

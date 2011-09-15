@@ -70,13 +70,15 @@ sitk.Show ( sitk.Shrink ( image, [2,2,2] ), "Shrunk" )
 size = [64, 64, 1]
 start = [64, 0, 0]
 sitk.Show ( sitk.Extract ( image, size, start ), "Extracted" )
+# Back to presentation
 
 # <demo> stop
 
-# Distance map
-sitk.Show ( sitk.SignedMaurerDistanceMap ( image ), "DistanceMap" )
+# Distance map, 25 pixels to a feature between 700 and 750
+distanceMap = sitk.SignedMaurerDistanceMap ( sitk.BinaryThreshold ( image, 700, 750 ) )
+sitk.Show ( sitk.IntensityWindowing ( distanceMap, 0, 25, 0, 255 ), "DistanceMap" )
 
-# <demo> stop
+# <Demo> stop
 
 # 3D image
 image = sitk.ReadImage ( dataDir + "/OAS1_0001_MR1_mpr-1_anon.nrrd" )
@@ -89,7 +91,7 @@ sitk.Show ( sitk.Flip ( image ), "Flipped" )
 # <demo> stop
 
 # Canny edges
-sitk.Show ( sitk.CannyEdgeDetection ( image ), "Canny" )
+sitk.Show ( sitk.CannyEdgeDetection ( sitk.Cast ( image, sitk.sitkFloat32 ) ), "Canny" )
 
 # <demo> stop
 

@@ -51,9 +51,10 @@ Import the SimpleITK package
 What just happened?
 \end{frame}
 
-\begin{frame}{Just Enough Python to be Dangerous}
+\begin{frame}[fragile]
+\frametitle{Just Enough Python to be Dangerous}
 Need to tell iPython where to find SimpleITK\\
-See /home/tutorial/.ipython/ipython.py
+See \texttt{/home/tutorial/.ipython/ipy\_user\_conf.py}
 \begin{center}
   \includegraphics[width=0.5\textwidth]{Images/iPythonWithSimpleITK_shadow}
 \end{center}
@@ -76,12 +77,11 @@ Back to iPython (\texttt{Examples/BasicTutorial1/Image.py})
 \frametitle{What just happened?}
 \lstpython
 \begin{lstlisting}
+import SimpleITK as sitk
 # Create an image
-image = sitk.Image ( 256, 256, 256,
-                          sitk.sitkInt16 );
+image = sitk.Image ( 256, 256, 256, sitk.sitkInt16 );
 # How about 2d?
-twoD = sitk.Image ( 64, 64,
-                         sitk.sitkFloat32 )
+twoD = sitk.Image ( 64, 64, sitk.sitkFloat32 )
 \end{lstlisting}
 
 \begin{itemize}
