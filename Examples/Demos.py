@@ -1,17 +1,17 @@
-import IPython.demo
+import IPython.lib.demo as ipd
 
 def ImageDemo ():
-    return IPython.demo.ClearIPDemo ( 'BasicTutorial1/Image.py' )
+    return ipd.ClearIPDemo ( 'BasicTutorial1/Image.py' )
 
 def InputOutputDemo ():
-    return IPython.demo.ClearIPDemo ( 'BasicTutorial1/InputOutput.py' )
+    return ipd.ClearIPDemo ( 'BasicTutorial1/InputOutput.py' )
 
 def MemoryManagementDemo ():
-    return IPython.demo.ClearIPDemo ( 'BasicTutorial1/MemoryManagement.py' )
+    return ipd.ClearIPDemo ( 'BasicTutorial1/MemoryManagement.py' )
 
 def FiltersDemo ():
-    return IPython.demo.ClearIPDemo ( 'BasicTutorial2/Filters.py' )
+    return ipd.ClearIPDemo ( 'BasicTutorial2/Filters.py' )
 
 def MorphologyDemo ():
-    return IPython.demo.ClearIPDemo ( 'BasicTutorial2/Morphology.py' )
+    return ipd.ClearIPDemo ( 'BasicTutorial2/Morphology.py' )
 
