@@ -117,6 +117,28 @@ Transformed by SWIG
 \end{frame}
 
 
+\begin{frame}{Image Anatomy}
+\begin{center}
+  \includegraphics[width=0.3\textwidth]{Images/SimpleITKImageAnatomy_shadow}
+\end{center}
+\begin{itemize}
+  \item SimpleITK images contain \texttt{itk::Image}
+  \item Hides the templates
+  \item Adds useful ``utility'' functions
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Filter Anatomy}
+\begin{center}
+  \includegraphics[width=0.7\textwidth]{Images/FilterInternals_shadow}
+\end{center}
+\begin{itemize}
+  \item SimpleITK filters contain \texttt{itk::ImageToImageFilter}
+  \item Hides the templates
+  \item Adds useful ``utility'' functions
+  \item (Mainly) \texttt{output = Filter.Execute ( input )}
+\end{itemize}
+\end{frame}
 
 
 
