@@ -12,6 +12,7 @@ sys.path.append("/home/tutorial/Source/SimpleITK-build/SimpleITK-build/Wrapping"
 EOF
 
 mkdir -p .ipython
+touch ~/.ipython/ipythonrc
 cat >> .ipython/ipy_user_conf.py <<EOF
 import sys
 print ( "Configure SimpleITK" )
@@ -69,7 +70,7 @@ cd SimpleITK && git checkout next
 cd ~/Source
 mkdir SimpleITK-build && cd SimpleITK-build
 
-# By Default the SimpleITK SuperBuild will build release versons of the libraries
+# By Default the SimpleITK SuperBuild will build release versions of the libraries
 cmake ../SimpleITK/SuperBuild
 make -j $np -k
 
