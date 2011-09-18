@@ -42,7 +42,7 @@ sigma = 50
 xImg = sitk.SubtractConstantFrom( xImg,  xImg.GetSize()[0] / 2 )
 yImg = yImg - yImg.GetSize()[1] / 2
 
-gaussianImg = sitk.Exp( -1 * (xImg*xImg + yImg*yImg) / (2.0 * sigma**2) )
+gaussianImg = sitk.Exp( -1 * (xImg**2 + yImg**2) / (2.0 * sigma**2) )
 sitk.Show ( gaussianImg, "GaussianImage" )
 
 # <demo> stop

@@ -155,7 +155,7 @@ sitk.Show ( 127 * image + 127 * sitk.BinaryErode ( image ), "ThinErosion" )
 \begin{threeparttable}
   \caption{SimpleITK Pixel-wise Operators}
   \begin{tabular}{c||l|l}
-    Operator & Equivalant & Usage\tnote{$^\dagger$} \\
+    Operator & Equivalant & Usage\tnote{$\dagger$} \\
     \hline
     $+$        & Add, AddConstantTo & $A + B$, $s+A$, $s+B$ \\
     $-$        & Subtract, SubtractConstantFrom & $A - B$, $s-A$, $s-B$ \\
@@ -163,10 +163,12 @@ sitk.Show ( 127 * image + 127 * sitk.BinaryErode ( image ), "ThinErosion" )
     $/$        & Divide, DivideByConstant & $A / B$, $s/A$, $B/s$ \\
     $\&$        & And ``and'' & $A \& B$ \\
     $|$        & Or ``or'' & $A | B$ \\
-    $\sim$        & Not ``not'' & $~A$
+    $\sim$        & Not ``not'' & $~A$ \\
+    $**$\tnote{$\dagger\dagger$}  & Pow, PowToConstant & $A**B$, $A**s$
   \end{tabular}
   \begin{tablenotes}
-    \item[$^\dagger$] $A$ and $B$ are images (2D or 3D), $s$ is a scalar
+    \item[$\dagger$] $A$ and $B$ are images (2D or 3D), $s$ is a scalar
+    \item[$\dagger\dagger$] python only
   \end{tablenotes}
 \end{threeparttable}
 \end{frame}
