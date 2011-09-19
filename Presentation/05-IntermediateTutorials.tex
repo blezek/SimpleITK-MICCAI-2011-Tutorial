@@ -16,21 +16,99 @@
 
 \subsection{Threshold-based Segmentation}
 
-\begin{frame}{Image Masks}
+\begin{frame}[fragile]
+\frametitle{Data To Interact With}
+\lstpython
+\begin{lstlisting}
+# Read image, using ipython's tab auto-complete
+image = sitk.ReadImage( ``~/SimpleITK-MICCAI-2011-Tutorial/iasem-cells.nrrd'' )
+
+# Get familiar with the image
+print image
+...
+sitk.Show( image )
+\end{lstlisting}
+
+This image was obtained with ``Dual-Beam'' or Ion-Abrasion Scanning
+Electron Microscope. It has been heavily pre-proccess, and is an X-Z
+cross-section of a 3D volume.
+
 \end{frame}
 
-\begin{frame}{Threshold-based Segmentation}
+\begin{frame}{Image Masks or Binary Images}
+
+\begin{itemize}
+  \item Image Masks are just SimpleITK Images which follow a convention.
+  \item Generally, of pixel type uint8\_t with 0-value being background a 1-value being the forgroud.
+  \item Masks are used for output of thresholding, binary morphology, etc...
+  \item The 1-value was choosen to each of computataion with operators.
+  \item If a mask needs to be directly shown, multipy it by 255.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Threshold-based Segmentation}
+
+\begin{itemize}
+  \item {\bf Threshold}\\
+    \small
+    $ Output(x_i) =
+    \begin{cases} Input(x_i) &\text{if $Lower \leq x_i \leq Upper$;}  \\
+      OutsideValue            &\text{otherwise.}
+    \end{cases} $
+    \normalsize
+  \item {\bf BinaryThreshold}\\
+    \small
+    $ Output(x_i) =
+    \begin{cases} InsideValue &\text{if $LowerThreshold \leq x_i \leq UpperThreshold$;}  \\
+      OutsideValue            &\text{otherwise.}
+    \end{cases} $
+    \normalsize
+  \item {\bf OtsuThreshold} - Automatic Threshold values based on minimizing intra-class variance.
+  \item {\bf DoubleThreshold} - A morphology based filters. Uses two sets of thresholds.
+\end{itemize}
+
+\lstpython
+\begin{lstlisting}
+# quick visualizations of masked image
+sitk.Show( image * mask )
+sitk.Show( .5*image*~mask+image*mask )
+\end{lstlisting}
+
 \end{frame}
 
 
 \begin{frame}{Advanced Geodesic Morphology}
+
+\begin{itemize}
+  \item {\bf BinaryOpeningByReconstruction} - Removes binary elements which are smaller than the structuring element.
+  \item {\bf BinaryClosingByReconstruction} - Fills binary holes which are smaller then the structuring element.
+  \item {\bf BinaryFillHole} - Fills all holes in image.
+  \item {\bf BinaryGrindPeak} - Removes all binary elements not connected to boarder.
+\end{itemize}
+
+
 \end{frame}
 
 \begin{frame}{Change Border Problem}
+
+After registration a boarder of the average intensity was added. Change this boarder to 0.
+
 \end{frame}
 
 \begin{frame}{Change Border Solution}
 \end{frame}
+
+\subsection{Numpy Interface}
+\begin{frame}{SimpleITK with Numpy}
+\end{frame}
+
+\begin{frame}{Compute Mode with Numpy Example}
+\end{frame}
+
 
 %
 % Begin Section For Hans
@@ -54,14 +132,6 @@
 %
 % End Section For Hans
 %
-
-\subsection{Numpy Interface}
-\begin{frame}{SimpleITK with Numpy}
-\end{frame}
-
-\begin{frame}{Numpy Example}
-\end{frame}
-
 
 \subsection{Feature Detection}
 \begin{frame}{Edge Detection}
