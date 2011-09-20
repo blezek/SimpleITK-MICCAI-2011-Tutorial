@@ -103,12 +103,23 @@ After registration a boarder of the average intensity was added. Change this boa
 \end{frame}
 
 \subsection{Numpy Interface}
-\begin{frame}{SimpleITK with Numpy}
-\end{frame}
+\begin{frame}[fragile]
+\frametitle{SimpleITK with Numpy}
 
-\begin{frame}{Compute Mode with Numpy Example}
-\end{frame}
+Functions to interface SimpleITK with numpy:
 
+\lstpython
+\begin{lstlisting}
+def GetArrayFromImage(image):
+    """Get a numpy array from a SimpleITK Image."""
+
+def GetImageFromArray( arr ):
+    """Get a SimpleITK Image from a numpy array."""
+\end{lstlisting}
+
+Both of these methods create a deep copy of the image array. It is safer this way, and bypasses error-prone memory issues.
+
+\end{frame}
 
 %
 % Begin Section For Hans
