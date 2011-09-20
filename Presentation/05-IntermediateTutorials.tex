@@ -28,23 +28,23 @@ print image
 ...
 sitk.Show( image )
 \end{lstlisting}
-
-This image was obtained with ``Dual-Beam'' or Ion-Abrasion Scanning
-Electron Microscope. It has been heavily pre-proccess, and is an X-Z
-cross-section of a 3D volume.
-
+\begin{itemize}
+  \item ``Dual-Beam'' or Ion-Abrasion Scanning Electron Microscope
+  \item Heavily pre-proccessed
+  \item  X-Z cross-section of a 3D volume
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Image Masks or Binary Images}
-
+Image masks are just SimpleITK Images
 \begin{itemize}
-  \item Image Masks are just SimpleITK Images which follow a convention.
-  \item Generally, of pixel type uint8\_t with 0-value being background a 1-value being the forgroud.
-  \item Masks are used for output of thresholding, binary morphology, etc...
-  \item The 1-value was choosen to each of computataion with operators.
-  \item If a mask needs to be directly shown, multipy it by 255.
+  \item Follow some conventions
+  \item Pixel type of \texttt{uint8\_t}
+  \item 0-value is background, 1-value being the foreground
+  \item Masks are used for output of thresholding, binary morphology, etc\dots
+  \item The 1-value was choosen to each of computataion with operators
+  \item If a mask needs to be directly shown, multiply by 255
 \end{itemize}
-
 \end{frame}
 
 
@@ -90,12 +90,11 @@ sitk.Show( .5*image*~mask+image*mask )
   \item {\bf BinaryGrindPeak} - Removes all binary elements not connected to boarder.
 \end{itemize}
 
-
 \end{frame}
 
 \begin{frame}{Change Border Problem}
 
-After registration a boarder of the average intensity was added. Change this boarder to 0.
+After registration a border of the average intensity was added. Change this border to 0.
 
 \end{frame}
 
@@ -116,8 +115,10 @@ def GetArrayFromImage(image):
 def GetImageFromArray( arr ):
     """Get a SimpleITK Image from a numpy array."""
 \end{lstlisting}
-
-Both of these methods create a deep copy of the image array. It is safer this way, and bypasses error-prone memory issues.
+\begin{itemize}
+  \item Both of these methods do a deep copy of the image
+  \item Ensures safety, bypassing error-prone memory issues
+\end{itemize}
 
 \end{frame}
 
